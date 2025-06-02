@@ -6,7 +6,7 @@ function MenuBar() {
 
   function logout() {
     clearJwtLogOut();
-    Navigate("/messaging-app");
+    Navigate("/social-circle-app");
     console.log("Clear JWT");
   }
   return (
