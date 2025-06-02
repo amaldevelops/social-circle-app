@@ -1,0 +1,28 @@
+{
+  "name": "social-circle-app-backend",
+  "version": "1.0.0",
+  "description": "social circle app Back end",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "studio": "npx prisma studio --schema src/prisma/schema.prisma",
+    "seed": "node src/prisma/seedSampleData.js"
+  },
+  "keywords": [],
+  "author": "Amal K",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "dependencies": {
+    "@prisma/client": "^6.8.2",
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "prisma": "^6.8.2"
+  }
+}
