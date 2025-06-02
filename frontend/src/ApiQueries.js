@@ -2,14 +2,17 @@ const apiURL = import.meta.env.VITE_API_URL;
 
 async function ApiLogin(formData) {
   try {
-    let response = await fetch(`${apiURL}/messaging-api/v1/contacts/login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
+    let response = await fetch(
+      `${apiURL}/social-circle-app/v1/contacts/login`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      }
+    );
     if (!response.ok) {
       throw new Error(`HTTP Error!`);
     }
@@ -25,16 +28,19 @@ async function ApiRegister(formData) {
   try {
     console.log(formData);
 
-    let response = await fetch(`${apiURL}/messaging-api/v1/contacts/register`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        bio: formData.bio,
-      }),
-    });
+    let response = await fetch(
+      `${apiURL}/social-circle-app/v1/contacts/register`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          bio: formData.bio,
+        }),
+      }
+    );
     const ApiResponse = await response.json();
     console.log(ApiResponse);
   } catch (error) {
@@ -63,7 +69,7 @@ async function loadProfile(contactID) {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/messaging-api/v1/contacts/${contactID}/profile`,
+      `${apiURL}/social-circle-app/v1/contacts/${contactID}/profile`,
       {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
@@ -126,7 +132,7 @@ async function loggedContactMessages(contactID) {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/messaging-api/v1/contacts/${contactID}/messages`,
+      `${apiURL}/social-circle-app/v1/contacts/${contactID}/messages`,
       {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
@@ -153,7 +159,7 @@ async function allContacts() {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
-    let response = await fetch(`${apiURL}/messaging-api/v1/contacts/`, {
+    let response = await fetch(`${apiURL}/social-circle-app/v1/contacts/`, {
       method: "GET",
       headers: { ...storedJwt, "Content-Type": "application/json" },
     });
@@ -174,7 +180,7 @@ async function sendMessage(senderID, receiverID, message) {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/messaging-api/v1/contacts/${senderID}/message/${receiverID}`,
+      `${apiURL}/social-circle-app/v1/contacts/${senderID}/message/${receiverID}`,
       {
         method: "POST",
         headers: { ...storedJwt, "Content-Type": "application/json" },
@@ -197,7 +203,7 @@ async function editProfile(formData) {
     const storedJwt = await loadJwtTokenToHttpHeader();
     console.log("Formsubmitted data", formData);
     let response = await fetch(
-      `${apiURL}/messaging-api/v1/contacts/${formData.contactID}/profile`,
+      `${apiURL}/social-circle-app/v1/contacts/${formData.contactID}/profile`,
       {
         method: "PUT",
         headers: { ...storedJwt, "Content-Type": "application/json" },

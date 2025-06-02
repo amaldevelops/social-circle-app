@@ -14,7 +14,7 @@ function App() {
     <>
       <div>
         <JWTStatus />
-        <h1>Web Based Messaging App </h1>
+        <h1>Social Circle - Social networking web app </h1>
 
         <button className="button-container" onClick={() => Navigate("login")}>
           Login

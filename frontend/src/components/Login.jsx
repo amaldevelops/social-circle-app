@@ -15,7 +15,7 @@ function Login() {
 
     // Add a 2-second delay before navigating
     setTimeout(() => {
-      Navigate("/messaging-app/messages");
+      Navigate("/social-circle-app/messages");
     }, 2000); // 2000 milliseconds = 2 seconds
   };
 
@@ -62,7 +62,7 @@ function Login() {
         </div>
       </form>
       <br />
-      <button onClick={() => Navigate("/messaging-app/register")}>
+      <button onClick={() => Navigate("/social-circle-app/register")}>
         Register Instead
       </button>
     </div>

@@ -12,19 +12,19 @@ function MenuBar() {
   return (
     <>
       <div className="menuBar">
-        <Link to="/messaging-app">Home</Link>
-        <Link to="/messaging-app/contacts">All Contacts</Link>
-        <Link to="/messaging-app/messages">Messages</Link>
-        <Link to="/messaging-app/profile">Profile</Link>
-        <Link to="/messaging-app/projectinfo">Technical Info</Link>
+        <Link to="/social-circle-app">Home</Link>
+        <Link to="/social-circle-app/contacts">All Contacts</Link>
+        <Link to="/social-circle-app/messages">Messages</Link>
+        <Link to="/social-circle-app/profile">Profile</Link>
+        <Link to="/social-circle-app/projectinfo">Technical Info</Link>
 
         <a
-          href="https://github.com/amaldevelops/messaging-app/"
+          href="https://github.com/amaldevelops/social-circle-app/"
           target="_blank"
         >
           Github Source code
         </a>
-        <a href="https://www.amalk.au/messaging-app/" target="_blank">
+        <a href="https://www.amalk.au/social-circle-app/" target="_blank">
           Live Demo
         </a>
         <button onClick={logout}>Logout</button>

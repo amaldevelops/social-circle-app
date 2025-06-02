@@ -13,7 +13,7 @@ function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    Navigate("/messaging-app/login");
+    Navigate("/social-circle-app/login");
     ApiRegister(formData);
   };
 
@@ -90,7 +90,7 @@ function Register() {
       </form>
 
       <div className="form-button-container">
-        <button onClick={() => Navigate("/messaging-app/login")}>
+        <button onClick={() => Navigate("/social-circle-app/login")}>
           Login Instead
         </button>
       </div>
