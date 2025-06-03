@@ -6,10 +6,82 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "./generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model User {
+  id             Int     @id @default(autoincrement())
+  username       String  @unique
+  fullName       String
+  email          String  @unique
+  hashedPassword String // Store hashed passwords, not plain text 'password'
+  profilePicUrl  String?
+
+  // Relationships
+  posts      Post[] // Posts authored by this user
+  likedPosts PostLike[] // Posts this user has liked (through the PostLike join table)
+  comments   Comment[] // Comments made by this user
+
+  // Following/Followers relationships
+  following Follow[] @relation("UserFollowing") // Users this user is following
+  followers Follow[] @relation("UserFollowers") // Users who are following this user
+}
+
+model Follow {
+  id          Int          @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  status      FollowStatus @default(PENDING) // PENDING, ACCEPTED, REJECTED
+  createdAt   DateTime     @default(now())
+
+  follower  User @relation("UserFollowing", fields: [followerId], references: [id])
+  following User @relation("UserFollowers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId]) // Ensure a user can only follow another user once
+}
+
+enum FollowStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  authorId  Int // Foreign key to the User who created the post
+  content   String   @db.Text // Use @db.Text for potentially long text content
+  createdAt DateTime @default(now())
+
+  // Relationships
+  author   User       @relation(fields: [authorId], references: [id])
+  likes    PostLike[] // Users who liked this post (through the PostLike join table)
+  comments Comment[] // Comments on this post
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, postId]) // A user can only like a post once
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
 }
