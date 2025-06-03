@@ -99,14 +99,16 @@ function ProjectInfo() {
         </li>
 
         <li className="pendingEmptyCheckbox">
-          Users Table fields: Full Name, E-mail (This will be the main ID for
-          linking posts), Hashed Password, followers, following, ID for post
-          likes
+          "usersdetails" Table fields: id(Unique,auto generated), user_name
+          (Unique, This will be the main ID for linking posts,likes, following
+          and login to the app), full_name, email(Unique), password(Hashed),
+          followers(usernames), following(usernames), likes(linked to ), profile_pic_url
         </li>
 
         <li className="pendingEmptyCheckbox">
-          Posts Table fields: Poster ID(e-mail), Likes, Comments, Message
-          Content, Time Stamp
+          "posts" Table fields: id(Unique,auto generated),
+          poster_user_name(linked to "usersdetails" Table id), likes,
+          post_comments, post_content, time_stamp (Auto generated time and date)
         </li>
       </ul>
 
