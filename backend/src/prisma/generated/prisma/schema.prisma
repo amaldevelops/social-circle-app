@@ -21,6 +21,7 @@ model User {
   email          String  @unique
   hashedPassword String // Store hashed passwords, not plain text 'password'
   profilePicUrl  String?
+  bio            String
 
   // Relationships
   posts      Post[] // Posts authored by this user

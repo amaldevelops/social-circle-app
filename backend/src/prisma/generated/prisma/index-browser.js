@@ -126,7 +126,8 @@ exports.Prisma.UserScalarFieldEnum = {
   fullName: 'fullName',
   email: 'email',
   hashedPassword: 'hashedPassword',
-  profilePicUrl: 'profilePicUrl'
+  profilePicUrl: 'profilePicUrl',
+  bio: 'bio'
 };
 
 exports.Prisma.FollowScalarFieldEnum = {

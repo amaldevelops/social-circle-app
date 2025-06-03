@@ -1,5 +1,11 @@
 import { PrismaClient } from "./generated/prisma/index.js";
 
+import { faker } from '@faker-js/faker';
+
+
+const randomName = faker.person.fullName(); // Rowan Nikolaus
+const randomEmail = faker.internet.email(); // Kassandra.Haley@erich.biz
+
 import bcrypt from "bcryptjs";
 
 import * as dotenv from "dotenv";
@@ -13,14 +19,14 @@ async function main() {
   const pass2 = await bcrypt.hash("Anko15", 10);
   const pass3 = await bcrypt.hash("Anko16", 10);
 
-  const contact1 = await prisma.Contact.upsert({
+  const contact1 = await prisma.User.upsert({
     where: { email: "frontenddeveloper@gmail.com" },
     update: {},
     create: {
       email: "frontenddeveloper@gmail.com",
-      name: "frontEndDeveloper",
-      password: pass1,
-      bio: "I am a Frontend Developer",
+      fullName: "frontEndDeveloper",
+      username:"frontenddeveloper",
+      hashedPassword: pass1,
     },
   });
 

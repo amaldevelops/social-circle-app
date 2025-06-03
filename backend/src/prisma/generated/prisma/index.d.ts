@@ -1384,6 +1384,7 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     profilePicUrl: string | null
+    bio: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1393,6 +1394,7 @@ export namespace Prisma {
     email: string | null
     hashedPassword: string | null
     profilePicUrl: string | null
+    bio: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1402,6 +1404,7 @@ export namespace Prisma {
     email: number
     hashedPassword: number
     profilePicUrl: number
+    bio: number
     _all: number
   }
 
@@ -1421,6 +1424,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     profilePicUrl?: true
+    bio?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1430,6 +1434,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     profilePicUrl?: true
+    bio?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1439,6 +1444,7 @@ export namespace Prisma {
     email?: true
     hashedPassword?: true
     profilePicUrl?: true
+    bio?: true
     _all?: true
   }
 
@@ -1535,6 +1541,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl: string | null
+    bio: string
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1563,6 +1570,7 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     profilePicUrl?: boolean
+    bio?: boolean
     posts?: boolean | User$postsArgs<ExtArgs>
     likedPosts?: boolean | User$likedPostsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
@@ -1578,6 +1586,7 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     profilePicUrl?: boolean
+    bio?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1587,6 +1596,7 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     profilePicUrl?: boolean
+    bio?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1596,9 +1606,10 @@ export namespace Prisma {
     email?: boolean
     hashedPassword?: boolean
     profilePicUrl?: boolean
+    bio?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "fullName" | "email" | "hashedPassword" | "profilePicUrl", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "username" | "fullName" | "email" | "hashedPassword" | "profilePicUrl" | "bio", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     posts?: boolean | User$postsArgs<ExtArgs>
     likedPosts?: boolean | User$likedPostsArgs<ExtArgs>
@@ -1626,6 +1637,7 @@ export namespace Prisma {
       email: string
       hashedPassword: string
       profilePicUrl: string | null
+      bio: string
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2060,6 +2072,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly hashedPassword: FieldRef<"User", 'String'>
     readonly profilePicUrl: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
   }
     
 
@@ -7058,7 +7071,8 @@ export namespace Prisma {
     fullName: 'fullName',
     email: 'email',
     hashedPassword: 'hashedPassword',
-    profilePicUrl: 'profilePicUrl'
+    profilePicUrl: 'profilePicUrl',
+    bio: 'bio'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7218,6 +7232,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     profilePicUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringFilter<"User"> | string
     posts?: PostListRelationFilter
     likedPosts?: PostLikeListRelationFilter
     comments?: CommentListRelationFilter
@@ -7232,6 +7247,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     profilePicUrl?: SortOrderInput | SortOrder
+    bio?: SortOrder
     posts?: PostOrderByRelationAggregateInput
     likedPosts?: PostLikeOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
@@ -7249,6 +7265,7 @@ export namespace Prisma {
     fullName?: StringFilter<"User"> | string
     hashedPassword?: StringFilter<"User"> | string
     profilePicUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringFilter<"User"> | string
     posts?: PostListRelationFilter
     likedPosts?: PostLikeListRelationFilter
     comments?: CommentListRelationFilter
@@ -7263,6 +7280,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     profilePicUrl?: SortOrderInput | SortOrder
+    bio?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7280,6 +7298,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     hashedPassword?: StringWithAggregatesFilter<"User"> | string
     profilePicUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringWithAggregatesFilter<"User"> | string
   }
 
   export type FollowWhereInput = {
@@ -7523,6 +7542,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -7537,6 +7557,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -7550,6 +7571,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -7564,6 +7586,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -7578,6 +7601,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7586,6 +7610,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -7595,6 +7620,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
   }
 
   export type FollowCreateInput = {
@@ -7889,6 +7915,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     profilePicUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -7902,6 +7929,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     profilePicUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7911,6 +7939,7 @@ export namespace Prisma {
     email?: SortOrder
     hashedPassword?: SortOrder
     profilePicUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -8979,6 +9008,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -8992,6 +9022,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -9009,6 +9040,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
@@ -9022,6 +9054,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
@@ -9050,6 +9083,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -9063,6 +9097,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9086,6 +9121,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
@@ -9099,6 +9135,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
@@ -9111,6 +9148,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     likedPosts?: PostLikeCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -9124,6 +9162,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     likedPosts?: PostLikeUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -9196,6 +9235,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     likedPosts?: PostLikeUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -9209,6 +9249,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     likedPosts?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -9253,6 +9294,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     comments?: CommentCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -9266,6 +9308,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -9314,6 +9357,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -9327,6 +9371,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
@@ -9365,6 +9410,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeCreateNestedManyWithoutUserInput
     following?: FollowCreateNestedManyWithoutFollowerInput
@@ -9378,6 +9424,7 @@ export namespace Prisma {
     email: string
     hashedPassword: string
     profilePicUrl?: string | null
+    bio: string
     posts?: PostUncheckedCreateNestedManyWithoutAuthorInput
     likedPosts?: PostLikeUncheckedCreateNestedManyWithoutUserInput
     following?: FollowUncheckedCreateNestedManyWithoutFollowerInput
@@ -9426,6 +9473,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUpdateManyWithoutUserNestedInput
     following?: FollowUpdateManyWithoutFollowerNestedInput
@@ -9439,6 +9487,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     hashedPassword?: StringFieldUpdateOperationsInput | string
     profilePicUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
     posts?: PostUncheckedUpdateManyWithoutAuthorNestedInput
     likedPosts?: PostLikeUncheckedUpdateManyWithoutUserNestedInput
     following?: FollowUncheckedUpdateManyWithoutFollowerNestedInput
