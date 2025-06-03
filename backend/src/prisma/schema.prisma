@@ -13,3 +13,24 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model users {
+  id              Int    @id @default(autoincrement())
+  user_name       String
+  full_name       String
+  email           String @unique
+  password        String
+  following       String
+  followers       String
+  likes           posts[] @relation("users_likes")
+  profile_pic_url String
+}
+
+model posts {
+  id              Int      @unique @default(autoincrement())
+  poster_username String
+  likes           String @relation("likes", fields:[id],references:[id])
+  post_comments   String
+  post_content    String
+  time_stamp      DateTime @default(now())
+}
