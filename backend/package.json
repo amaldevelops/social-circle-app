@@ -8,7 +8,7 @@
     "start": "node src/index.js",
     "dev": "node --watch src/index.js",
     "studio": "npx prisma studio --schema src/prisma/schema.prisma",
-    "seed": "node src/prisma/seedSampleData.js"
+    "seed": "node src/prisma/SeedSampleData.js"
   },
   "keywords": [],
   "author": "Amal K",
