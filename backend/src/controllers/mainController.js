@@ -37,9 +37,11 @@ async function apiStatus(req, res, next) {
 async function login(req, res, next) {
   try {
     const { email, password } = req.body;
+    
 
     const response = await PrismaAuthenticateUser(email, password);
     const createdJWT = await createJWT(response);
+    console.log("Resoibse frin Prisma:",response)
     res.json({
       jwt: createdJWT.token,
     });

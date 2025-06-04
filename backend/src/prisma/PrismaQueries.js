@@ -26,13 +26,13 @@ async function PrismaRegisterNewUser(name, email, password, bio) {
 // Function to authenticate contact based on supplied email, password and stored password on database
 async function PrismaAuthenticateUser(email, password) {
   try {
-    const authenticate = await prismaQuery.contact.findUnique({
+    const authenticate = await prismaQuery.user.findUnique({
       where: {
         email: email,
       },
     });
     console.log(authenticate);
-    const passwordMatch = await bcrypt.compare(password, authenticate.password);
+    const passwordMatch = await bcrypt.compare(password, authenticate.hashedPassword);
     console.log("Password Matching:", passwordMatch);
 
     if (passwordMatch) {
@@ -40,7 +40,7 @@ async function PrismaAuthenticateUser(email, password) {
       return {
         status: "Authentication Success",
         id: authenticate.id,
-        name: authenticate.name,
+        fullName: authenticate.fullName,
         email: authenticate.email,
         bio: authenticate.bio,
       };
