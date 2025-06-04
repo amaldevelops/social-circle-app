@@ -5,11 +5,12 @@ import bcrypt from "bcryptjs";
 const prismaQuery = new PrismaClient();
 
 // Function to register a new user into the database
-async function PrismaRegisterNewUser(name, email, password, bio) {
+async function PrismaRegisterNewUser(fullName,userName, email, password, bio) {
   try {
     const createContact = await prismaQuery.contact.create({
       data: {
-        name: name,
+        fullName: fullName,
+        userName:userName,
         email: email,
         password: await bcrypt.hash(password, 10),
         bio: bio,

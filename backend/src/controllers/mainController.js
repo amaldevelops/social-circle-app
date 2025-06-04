@@ -27,12 +27,10 @@ async function apiStatus(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
-
 // Middleware to Authenticate login existing user using sent form data
 // POST Method
-// Require email, password,
-// Message is sent as body=>raw=>JSON
+// Require email, password sent as JSON
+// Request from Front End is sent as body=>raw=>JSON {"email":"justus.armstrong@example.com", "password":"Pass1234"}
 // JSON Format: {"email":"","password":""}
 async function login(req, res, next) {
   try {
@@ -50,7 +48,6 @@ async function login(req, res, next) {
       });
     }
 
-    console.log("Resoibse frin Prisma:", response);
   } catch (error) {
     console.error(error);
     res.json({
@@ -63,13 +60,13 @@ async function login(req, res, next) {
 
 // Middleware to Register New user using received form data
 // POST Method
-// Require name, email, password, bio
-// Message is sent as body=>raw=>JSON
+// Require name, email, password, bio sent as JSON
+// Request is sent as body=>raw=>JSON
 // JSON Format: {"name":"","email":"","password":"","bio":""}
 async function register(req, res, next) {
   try {
-    const { name, email, password, bio } = req.body;
-    const response = await PrismaRegisterNewUser(name, email, password, bio);
+    const { fullName,userName, email, password, bio } = req.body;
+    const response = await PrismaRegisterNewUser(fullName,userName, email, password, bio);
     res.json({
       response: response,
     });

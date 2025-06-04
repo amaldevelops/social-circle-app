@@ -27,7 +27,7 @@ async function main() {
     // by appending a counter or a random number if needed.
     // We'll use the loop index 'i' to guarantee uniqueness for these 10 users.
     const uniqueSuffix = i > 0 ? `${i}` : ""; // Avoid suffix for the first user
-    const username =
+    const userName =
       `${firstName.toLowerCase()}${lastName.toLowerCase()}${uniqueSuffix}`.replace(
         /\s/g,
         ""
@@ -46,7 +46,7 @@ async function main() {
       where: { email: email }, // Use the derived unique email
       update: {
         fullName: baseFullName,
-        username: username,
+        userName: userName,
         hashedPassword: hashedPassword,
         profilePicUrl: profilePicUrl,
         bio: bio,
@@ -54,7 +54,7 @@ async function main() {
       create: {
         email: email, // Use the derived unique email
         fullName: baseFullName,
-        username: username,
+        userName: userName,
         hashedPassword: hashedPassword,
         profilePicUrl: profilePicUrl,
         bio: bio,
@@ -62,7 +62,7 @@ async function main() {
     });
     users.push(user);
     console.log(
-      `- Upserted user: ${user.username} (ID: ${user.id}) | Full Name: ${user.fullName} | Email: ${user.email}`
+      `- Upserted user: ${user.userName} (ID: ${user.id}) | Full Name: ${user.fullName} | Email: ${user.email}`
     );
   }
 
@@ -81,7 +81,7 @@ async function main() {
       },
     });
     posts.push(post);
-    console.log(`- Created post (ID: ${post.id}) by ${randomUser.username}`);
+    console.log(`- Created post (ID: ${post.id}) by ${randomUser.userName}`);
   }
 
   // --- 3. Seed Likes ---
