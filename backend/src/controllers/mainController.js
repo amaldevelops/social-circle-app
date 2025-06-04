@@ -10,18 +10,22 @@ import {
 
 import { createJWT, authenticateJWT } from "../middleware/Authenticator.js";
 
+//TO BE MODIFIED
 async function apiStatus(req, res, next) {
   try {
     res.json({
       status: "Backend Systems running ok",
       response: [
-        "/social-circle-api/v1/status : GET End Point to show the running status of API"
+        "/social-circle-api/v1/status : GET End Point to show the running status of API",
       ],
     });
   } catch (error) {
     console.error(error);
   }
 }
+
+//TO BE MODIFIED
+
 // Middleware to Authenticate login existing user using sent form data
 // POST Method
 // Require email, password,
@@ -44,6 +48,8 @@ async function login(req, res, next) {
   }
 }
 
+//TO BE MODIFIED
+
 // Middleware to Register New user using received form data
 // POST Method
 // Require name, email, password, bio
@@ -64,7 +70,8 @@ async function register(req, res, next) {
   }
 }
 
-async function getAllContacts(req, res, next) {
+//TO BE MODIFIED
+async function getAllUsers(req, res, next) {
   try {
     const allContactsReceived = await allContacts();
     console.log(allContactsReceived);
@@ -74,28 +81,29 @@ async function getAllContacts(req, res, next) {
   }
 }
 
-async function getContactMessages(req, res, next) {
-  try {
-    const contactID = parseInt(req.params.loggedInUserID);
-    console.log(contactID);
-    const getUserMessages = await contactMessages(contactID);
-    console.log(getUserMessages);
-    res.json({
-      status: "Get logged in users messages",
-      response: getUserMessages,
-    });
-  } catch (error) {
-    console.error(error);
-    res.json({ error: "Error Fetching messages" });
-  }
-}
+// async function getUserProfile(req, res, next) {
+//   try {
+//     const contactID = parseInt(req.params.loggedInUserID);
+//     console.log(contactID);
+//     const getUserMessages = await contactMessages(contactID);
+//     console.log(getUserMessages);
+//     res.json({
+//       status: "Get logged in users messages",
+//       response: getUserMessages,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.json({ error: "Error Fetching messages" });
+//   }
+// }
 // Function to send messages to a contact
 // POST Method
 // Require loggedInUserID, contactID, message
 // Message is sent as body=>raw=>JSON
 // JSON Format: {"loggedInUserID":"","contactID":"", "message":""}
 
-async function sendMessageToContact(req, res, next) {
+//TO BE MODIFIED
+async function followOrUnfollowUser(req, res, next) {
   try {
     const senderID = parseInt(req.params.loggedInUserID);
     const receiverID = parseInt(req.params.contactID);
@@ -116,7 +124,9 @@ async function sendMessageToContact(req, res, next) {
   }
 }
 
-async function loadUserProfile(req, res, next) {
+//TO BE MODIFIED
+
+async function getUserProfile(req, res, next) {
   try {
     const userProfileID = parseInt(req.params.contactID);
     const getUserProfile = await userProfileRead(userProfileID);
@@ -130,6 +140,9 @@ async function loadUserProfile(req, res, next) {
     res.json({ error: "Error Loading profile" });
   }
 }
+
+//TO BE MODIFIED
+
 // This function will update the user profile based on contactID
 // PUT Method
 // Require contactID, updatedBio
@@ -149,13 +162,76 @@ async function updateLoggedUserProfile(req, res, next) {
   }
 }
 
+//TO BE MODIFIED
+async function homeFeed(req, res, next) {
+  try {
+    const { contactID, updatedBio } = req.body;
+    const updateProfile = await userProfileUpdate(
+      parseInt(contactID),
+      updatedBio
+    );
+    res.json({ response: updateProfile });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Updating profile" });
+  }
+}
+
+//TO BE MODIFIED
+async function createNewPost(req, res, next) {
+  try {
+    const { contactID, updatedBio } = req.body;
+    const updateProfile = await userProfileUpdate(
+      parseInt(contactID),
+      updatedBio
+    );
+    res.json({ response: updateProfile });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Updating profile" });
+  }
+}
+
+//TO BE MODIFIED
+async function likePosts(req, res, next) {
+  try {
+    const { contactID, updatedBio } = req.body;
+    const updateProfile = await userProfileUpdate(
+      parseInt(contactID),
+      updatedBio
+    );
+    res.json({ response: updateProfile });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Updating profile" });
+  }
+}
+
+//TO BE MODIFIED
+async function commentOnPosts(req, res, next) {
+  try {
+    const { contactID, updatedBio } = req.body;
+    const updateProfile = await userProfileUpdate(
+      parseInt(contactID),
+      updatedBio
+    );
+    res.json({ response: updateProfile });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Updating profile" });
+  }
+}
+
 export {
   apiStatus,
   login,
   register,
-  getAllContacts,
-  getContactMessages,
-  sendMessageToContact,
-  loadUserProfile,
+  getAllUsers,
+  followOrUnfollowUser,
+  getUserProfile,
   updateLoggedUserProfile,
+  homeFeed,
+  createNewPost,
+  likePosts,
+  commentOnPosts,
 };
