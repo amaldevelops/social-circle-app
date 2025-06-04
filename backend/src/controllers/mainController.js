@@ -1,11 +1,14 @@
 import {
-  allContacts,
-  contactMessages,
-  sendNewMessage,
-  authenticateContact,
-  registerNewContact,
-  userProfileRead,
-  userProfileUpdate,
+  prismaGetAllUsers,
+  PrismaFollowOrUnfollowUser,
+  PrismaAuthenticateUser,
+  PrismaRegisterNewUser,
+  PrismaGetUserProfile,
+  PrismaUpdateLoggedUserProfile,
+  PrismaHomeFeed,
+  PrismaCommentOnPosts,
+  PrismaLikePosts,
+  PrismaCreateNewPost,
 } from "../prisma/PrismaQueries.js";
 
 import { createJWT, authenticateJWT } from "../middleware/Authenticator.js";
@@ -35,7 +38,7 @@ async function login(req, res, next) {
   try {
     const { email, password } = req.body;
 
-    const response = await authenticateContact(email, password);
+    const response = await PrismaAuthenticateUser(email, password);
     const createdJWT = await createJWT(response);
     res.json({
       jwt: createdJWT.token,
@@ -58,7 +61,7 @@ async function login(req, res, next) {
 async function register(req, res, next) {
   try {
     const { name, email, password, bio } = req.body;
-    const response = await registerNewContact(name, email, password, bio);
+    const response = await PrismaRegisterNewUser(name, email, password, bio);
     res.json({
       response: response,
     });
@@ -73,7 +76,7 @@ async function register(req, res, next) {
 //TO BE MODIFIED
 async function getAllUsers(req, res, next) {
   try {
-    const allContactsReceived = await allContacts();
+    const allContactsReceived = await prismaGetAllUsers();
     console.log(allContactsReceived);
     res.json({ status: "Get all contacts", response: allContactsReceived });
   } catch (error) {
@@ -114,7 +117,11 @@ async function followOrUnfollowUser(req, res, next) {
 
     const { message } = req.body;
 
-    const response = await sendNewMessage(senderID, receiverID, message);
+    const response = await PrismaFollowOrUnfollowUser(
+      senderID,
+      receiverID,
+      message
+    );
     res.json({
       response: response,
     });
@@ -129,7 +136,7 @@ async function followOrUnfollowUser(req, res, next) {
 async function getUserProfile(req, res, next) {
   try {
     const userProfileID = parseInt(req.params.contactID);
-    const getUserProfile = await userProfileRead(userProfileID);
+    const getUserProfile = await PrismaGetUserProfile(userProfileID);
 
     res.json({
       status: "Load logged in users profile",
@@ -151,7 +158,7 @@ async function getUserProfile(req, res, next) {
 async function updateLoggedUserProfile(req, res, next) {
   try {
     const { contactID, updatedBio } = req.body;
-    const updateProfile = await userProfileUpdate(
+    const updateProfile = await PrismaUpdateLoggedUserProfile(
       parseInt(contactID),
       updatedBio
     );
@@ -166,10 +173,7 @@ async function updateLoggedUserProfile(req, res, next) {
 async function homeFeed(req, res, next) {
   try {
     const { contactID, updatedBio } = req.body;
-    const updateProfile = await userProfileUpdate(
-      parseInt(contactID),
-      updatedBio
-    );
+    const updateProfile = await PrismaHomeFeed(parseInt(contactID), updatedBio);
     res.json({ response: updateProfile });
   } catch (error) {
     console.error(error);
@@ -181,7 +185,7 @@ async function homeFeed(req, res, next) {
 async function createNewPost(req, res, next) {
   try {
     const { contactID, updatedBio } = req.body;
-    const updateProfile = await userProfileUpdate(
+    const updateProfile = await PrismaCreateNewPost(
       parseInt(contactID),
       updatedBio
     );
@@ -196,7 +200,7 @@ async function createNewPost(req, res, next) {
 async function likePosts(req, res, next) {
   try {
     const { contactID, updatedBio } = req.body;
-    const updateProfile = await userProfileUpdate(
+    const updateProfile = await PrismaLikePosts(
       parseInt(contactID),
       updatedBio
     );
@@ -211,7 +215,7 @@ async function likePosts(req, res, next) {
 async function commentOnPosts(req, res, next) {
   try {
     const { contactID, updatedBio } = req.body;
-    const updateProfile = await userProfileUpdate(
+    const updateProfile = await PrismaCommentOnPosts(
       parseInt(contactID),
       updatedBio
     );

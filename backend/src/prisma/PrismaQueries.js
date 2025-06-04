@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 const prismaQuery = new PrismaClient();
 
 // Function to register a new user into the database
-async function registerNewContact(name, email, password, bio) {
+async function PrismaRegisterNewUser(name, email, password, bio) {
   try {
     const createContact = await prismaQuery.contact.create({
       data: {
@@ -24,7 +24,7 @@ async function registerNewContact(name, email, password, bio) {
 }
 
 // Function to authenticate contact based on supplied email, password and stored password on database
-async function authenticateContact(email, password) {
+async function PrismaAuthenticateUser(email, password) {
   try {
     const authenticate = await prismaQuery.contact.findUnique({
       where: {
@@ -55,7 +55,7 @@ async function authenticateContact(email, password) {
 
 // Function to get all contacts stored on database
 
-async function allContacts() {
+async function prismaGetAllUsers() {
   try {
     const getAllContacts = await prismaQuery.contact.findMany({
       include: { password: false },
@@ -68,7 +68,64 @@ async function allContacts() {
   }
 }
 
-async function contactMessages(contactID) {
+// Function to send message to another contact based on sender contact ID and receiver contact ID
+
+async function PrismaFollowOrUnfollowUser(senderID, receiverID, message) {
+  try {
+    const newMessage = await prismaQuery.message.create({
+      data: {
+        message: message,
+        contactIdSender: senderID,
+        contactIdReceiver: receiverID,
+      },
+    });
+    return "Message Sent";
+  } catch (error) {
+    console.error(error);
+    return "Error Sending Message";
+  }
+}
+
+// Function to read profile based on contactID supplied
+async function PrismaGetUserProfile(contactID) {
+  try {
+    const userProfile = await prismaQuery.contact.findUnique({
+      where: { id: contactID },
+      select: {
+        email: true,
+        password: false,
+        bio: true,
+        messagesSent: false,
+        messagesReceived: false,
+        password: false,
+      },
+    });
+    console.log(userProfile);
+    return userProfile;
+  } catch (error) {
+    console.error(error);
+    return "Error Fetching Profile";
+  }
+}
+
+// Function to Update user Profile based on contactID
+async function PrismaUpdateLoggedUserProfile(contactID, updatedBio) {
+  try {
+    const updateProfile = await prismaQuery.contact.update({
+      where: { id: contactID },
+      data: {
+        bio: updatedBio,
+      },
+    });
+    return "User Profile Updated!";
+  } catch (error) {
+    console.error(error);
+    return "User Profile Update ERROR !";
+  }
+}
+
+// Function to get the home feed
+async function PrismaHomeFeed(contactID) {
   // This is your backend function
   try {
     const contactData = await prismaQuery.contact.findUnique({
@@ -142,68 +199,69 @@ async function contactMessages(contactID) {
   }
 }
 
-// Function to send message to another contact based on sender contact ID and receiver contact ID
-
-async function sendNewMessage(senderID, receiverID, message) {
+async function PrismaCommentOnPosts(name, email, password, bio) {
   try {
-    const newMessage = await prismaQuery.message.create({
+    const createContact = await prismaQuery.contact.create({
       data: {
-        message: message,
-        contactIdSender: senderID,
-        contactIdReceiver: receiverID,
+        name: name,
+        email: email,
+        password: await bcrypt.hash(password, 10),
+        bio: bio,
       },
     });
-    return "Message Sent";
+
+    return "User Registered successfully !";
   } catch (error) {
     console.error(error);
-    return "Error Sending Message";
+    return "User Registration Error, Please try again !";
   }
 }
 
-// Function to read profile based on contactID supplied
-async function userProfileRead(contactID) {
+async function PrismaLikePosts(name, email, password, bio) {
   try {
-    const userProfile = await prismaQuery.contact.findUnique({
-      where: { id: contactID },
-      select: {
-        email: true,
-        password: false,
-        bio: true,
-        messagesSent: false,
-        messagesReceived: false,
-        password: false,
+    const createContact = await prismaQuery.contact.create({
+      data: {
+        name: name,
+        email: email,
+        password: await bcrypt.hash(password, 10),
+        bio: bio,
       },
     });
-    console.log(userProfile);
-    return userProfile;
+
+    return "User Registered successfully !";
   } catch (error) {
     console.error(error);
-    return "Error Fetching Profile";
+    return "User Registration Error, Please try again !";
   }
 }
 
-// Function to Update user Profile based on contactID
-async function userProfileUpdate(contactID, updatedBio) {
+async function PrismaCreateNewPost(name, email, password, bio) {
   try {
-    const updateProfile = await prismaQuery.contact.update({
-      where: { id: contactID },
+    const createContact = await prismaQuery.contact.create({
       data: {
-        bio: updatedBio,
+        name: name,
+        email: email,
+        password: await bcrypt.hash(password, 10),
+        bio: bio,
       },
     });
-    return "User Profile Updated!";
+
+    return "User Registered successfully !";
   } catch (error) {
     console.error(error);
-    return "User Profile Update ERROR !";
+    return "User Registration Error, Please try again !";
   }
 }
 
 export {
-  allContacts,
-  contactMessages,
-  sendNewMessage,
-  authenticateContact,
-  registerNewContact,
-  userProfileRead,
-  userProfileUpdate,
+  prismaGetAllUsers,
+  PrismaFollowOrUnfollowUser,
+  PrismaAuthenticateUser,
+  PrismaRegisterNewUser,
+  PrismaGetUserProfile,
+  PrismaUpdateLoggedUserProfile,
+  PrismaHomeFeed,
+  PrismaCommentOnPosts,
+  PrismaLikePosts,
+  PrismaCreateNewPost,
 };
