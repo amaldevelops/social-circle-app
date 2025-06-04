@@ -22,5 +22,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(port, () => {
-  console.log(`Social Circle App is running on: http://localhost:${port}`);
+  console.log(`Social Circle App is running on: http://localhost:${port}/social-circle-api/v1/status`);
 });
