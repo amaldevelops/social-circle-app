@@ -5,14 +5,14 @@ import bcrypt from "bcryptjs";
 const prismaQuery = new PrismaClient();
 
 // Function to register a new user into the database
-async function PrismaRegisterNewUser(fullName,userName, email, password, bio) {
+async function PrismaRegisterNewUser(fullName, userName, email, password, bio) {
   try {
-    const createContact = await prismaQuery.contact.create({
+    const createContact = await prismaQuery.user.create({
       data: {
         fullName: fullName,
-        userName:userName,
+        userName: userName,
         email: email,
-        password: await bcrypt.hash(password, 10),
+        hashedPassword: await bcrypt.hash(password, 10),
         bio: bio,
       },
     });
@@ -33,7 +33,10 @@ async function PrismaAuthenticateUser(email, password) {
       },
     });
     console.log(authenticate);
-    const passwordMatch = await bcrypt.compare(password, authenticate.hashedPassword);
+    const passwordMatch = await bcrypt.compare(
+      password,
+      authenticate.hashedPassword
+    );
     console.log("Password Matching:", passwordMatch);
 
     if (passwordMatch) {
