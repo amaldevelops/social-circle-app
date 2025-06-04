@@ -20,6 +20,16 @@ async function apiStatus(req, res, next) {
       status: "Backend Systems running ok",
       response: [
         "/social-circle-api/v1/status : GET End Point to show the running status of API",
+        "/social-circle-api/v1/login:POST End Point to login to Social Circle App",
+        "/social-circle-api/v1/register: POST End Point to Register new user",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/:selected-user-name/profile/view:Authenticated End Point to GET any users profile",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/all-users : Authenticated End Point to GET all the users registered",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/all-users/:selected-user-name/followstatus : Authenticated End Point to follow request to selected user, this can be combined with GET all users endpoint to display and send requests",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/profile/edit : Authenticated End Point to update logged in users profile",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/all-users/:selected-user-name/home-feed : Authenticated End Point to get all recent posts of logged in user and followers",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/new-post : Authenticated End Point to create new posts",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/like : Authenticated End Point to like and unlike posts",
+        "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/comment : Authenticated End Point to comment on posts",
       ],
     });
   } catch (error) {
@@ -47,7 +57,6 @@ async function login(req, res, next) {
         jwt: "Authentication Failure!",
       });
     }
-
   } catch (error) {
     console.error(error);
     res.json({
@@ -56,17 +65,21 @@ async function login(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
-
 // Middleware to Register New user using received form data
 // POST Method
 // Require name, email, password, bio sent as JSON
 // Request is sent as body=>raw=>JSON
-// JSON Format: {"name":"","email":"","password":"","bio":""}
+// JSON Format: {    "fullName":"Maverick Cruise", "userName":"maverick",    "email":"maverick@example.com","password":"password","bio":"Top Gun Pilot"}
 async function register(req, res, next) {
   try {
-    const { fullName,userName, email, password, bio } = req.body;
-    const response = await PrismaRegisterNewUser(fullName,userName, email, password, bio);
+    const { fullName, userName, email, password, bio } = req.body;
+    const response = await PrismaRegisterNewUser(
+      fullName,
+      userName,
+      email,
+      password,
+      bio
+    );
     res.json({
       response: response,
     });

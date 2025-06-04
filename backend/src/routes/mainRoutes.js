@@ -58,28 +58,28 @@ mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticated-user-name/all-users/:selected-user-name/home-feed",
   authenticateJWT,
   homeFeed
-);
+); // Authenticated End Point to get all recent posts of logged in user and followers
 //Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 
-mainRouter.get(
+mainRouter.post(
   "/social-circle-api/v1/authorized/:authenticated-user-name/new-post",
   authenticateJWT,
   createNewPost
-);
+); // Authenticated End Point to create new posts
 //Requirement: Users can create posts
 
 mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/like",
   authenticateJWT,
   likePosts
-);
+); // Authenticated End Point to like and unlike posts
 //Requirement: Users can like and unlike posts
 
 mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/comment",
   authenticateJWT,
   commentOnPosts
-);
+); // Authenticated End Point to comment on posts
 //Requirement: Users can comment on posts
 
 export default mainRouter;
