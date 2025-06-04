@@ -38,7 +38,7 @@ async function PrismaAuthenticateUser(email, password) {
     if (passwordMatch) {
       console.log("Authentication Success !");
       return {
-        status: "Authentication Success",
+        status: "Authentication Success!",
         id: authenticate.id,
         fullName: authenticate.fullName,
         email: authenticate.email,
@@ -46,7 +46,7 @@ async function PrismaAuthenticateUser(email, password) {
       };
     } else {
       console.log("Authentication Failure !");
-      return { status: "Authentication Failure" };
+      return { status: "Authentication Failure!" };
     }
   } catch (error) {
     console.error(error);
