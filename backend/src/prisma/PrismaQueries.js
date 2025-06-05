@@ -227,76 +227,92 @@ async function PrismaFollowOrUnfollowUser(
 }
 
 // Function to get the home feed
-async function PrismaHomeFeed(contactID) {
-  // This is your backend function
+async function PrismaHomeFeed(currentUserName) {
   try {
-    const contactData = await prismaQuery.contact.findUnique({
-      where: { id: contactID },
-      include: {
-        messagesSent: {
-          include: {
-            contactSender: { select: { id: true, name: true, email: true } },
-            contactReceiver: { select: { id: true, name: true, email: true } },
-          },
-        },
-        messagesReceived: {
-          include: {
-            contactSender: { select: { id: true, name: true, email: true } },
-            contactReceiver: { select: { id: true, name: true, email: true } },
+    // 1. Find the current user to get their ID and their following list
+    const currentUser = await prismaQuery.user.findUnique({
+      where: { userName: currentUserName },
+      select: {
+        id: true,
+        // Select 'following' relationships where the status is ACCEPTED
+        following: {
+          where: { status: "ACCEPTED" }, // Only accepted follows
+          select: {
+            followingId: true, // Get the ID of the user they are following
           },
         },
       },
     });
 
-    if (!contactData) {
-      console.log(`No contact found for ID: ${contactID}`);
-      // Return a consistent structure for "not found"
-      return { response: [], status: `No contact found for ID ${contactID}` };
+    if (!currentUser) {
+      console.log(`User Not found: ${currentUserName}`);
+      return {
+        success: false,
+        message: `No user found for ${currentUserName}`,
+        data: [],
+      };
     }
 
-    const allMessages = [
-      ...contactData.messagesSent,
-      ...contactData.messagesReceived,
-    ];
+    // 2. Extract IDs of users the current user is following (ACCEPTED status)
+    const followedUserIds = currentUser.following.map((f) => f.followingId);
 
-    const formattedMessages = allMessages.map((msg) => {
-      const senderName =
-        msg.contactSender?.name || `Unknown Sender (${msg.contactIdSender})`;
-      const receiverName =
-        msg.contactReceiver?.name ||
-        `Unknown Receiver (${msg.contactIdReceiver})`;
-      const senderEmail = msg.contactSender?.email || null;
-      const receiverEmail = msg.contactReceiver?.email || null;
+    // 3. Combine the current user's ID with the IDs of followed users
+    const usersToFetchPostsFrom = [currentUser.id, ...followedUserIds];
 
-      return {
-        id: msg.id,
-        message: msg.message,
-        contactIdSender: msg.contactIdSender,
-        contactIdReceiver: msg.contactIdReceiver,
-        time: msg.time,
-        senderName: senderName,
-        receiverName: receiverName,
-        senderEmail: senderEmail,
-        receiverEmail: receiverEmail,
-      };
+    // 4. Fetch all posts from these users, ordered by creation date
+    const posts = await prismaQuery.post.findMany({
+      where: {
+        authorId: {
+          in: usersToFetchPostsFrom, // Get posts where authorId is in our list
+        },
+      },
+      include: {
+        author: {
+          select: {
+            id: true,
+            userName: true,
+            fullName: true,
+            profilePicUrl: true, // Include useful author info
+          },
+        },
+        likes: {
+          select: {
+            userId: true, // Only need the ID of users who liked it
+          },
+        },
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            createdAt: true,
+            user: {
+              select: {
+                id: true,
+                userName: true,
+                fullName: true,
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc", // Most recent posts first
+      },
     });
 
-    formattedMessages.sort(
-      (a, b) => new Date(a.time).getTime() - new Date(b.time).getTime()
-    );
-
-    console.log(`Messages fetched for contact ID: ${contactID}`);
-
+    console.log(`Home Feed for ${currentUserName} fetched successfully.`);
     return {
-      response: formattedMessages,
-      status: "Messages fetched successfully",
+      success: true,
+      message: "Home Feed fetched successfully",
+      data: posts,
     };
   } catch (error) {
-    console.error("Error fetching contact messages:", error);
+    console.error("Error fetching home feed:", error);
     return {
-      response: [],
-      error: "Failed to fetch contact messages",
+      success: false,
+      message: "Failed to fetch home feed",
       details: error.message,
+      data: [],
     };
   }
 }

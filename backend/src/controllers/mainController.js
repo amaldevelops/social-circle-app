@@ -155,7 +155,6 @@ async function getAllUsers(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
 // PUT Method
 // Require authenticatedUserName, selectedUserName
 // Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
@@ -180,14 +179,20 @@ async function followOrUnfollowUser(req, res, next) {
 }
 
 //TO BE MODIFIED
+//Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
+// GET Method
+// Require:authenticatedUserName,
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// Message is sent as body=>raw=>JSON,
+// JSON Format expected: N/a
 async function homeFeed(req, res, next) {
   try {
-    const { contactID, updatedBio } = req.body;
-    const updateProfile = await PrismaHomeFeed(parseInt(contactID), updatedBio);
-    res.json({ response: updateProfile });
+    const { authenticatedUserName, selectedUserName } = req.body;
+    const userHomeFeed = await PrismaHomeFeed(selectedUserName);
+    res.json({ response: userHomeFeed });
   } catch (error) {
     console.error(error);
-    res.json({ error: "Error Updating profile" });
+    res.json({ error: "Error Loading Home Feed" });
   }
 }
 

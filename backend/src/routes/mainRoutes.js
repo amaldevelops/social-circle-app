@@ -61,7 +61,7 @@ mainRouter.put(
   followOrUnfollowUser
 );
 
-// Authenticated End Point to get all recent posts of logged in user and followers
+// Authenticated End Point to get all recent posts of logged in user and users followers
 //Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticatedUserName/all-users/:selectedUserName/home-feed",
