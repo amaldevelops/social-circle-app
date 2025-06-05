@@ -138,6 +138,12 @@ async function updateLoggedUserProfile(req, res, next) {
 
 //TO BE MODIFIED
 
+// GET Method
+// Require 
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// Message is sent as body=>raw=>JSON,
+// JSON Format expected: {"authenticatedUserName":"maverick", "updatedBio":"Top Gun 2 Actor","profilePicUrl":"/"}
+
 async function getAllUsers(req, res, next) {
   try {
     const allContactsReceived = await prismaGetAllUsers();

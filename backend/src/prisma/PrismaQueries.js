@@ -70,7 +70,7 @@ async function PrismaGetUserProfile(selectedUserName) {
         fullName: true,
         posts: {
           select: {
-            id:true,
+            id: true,
             content: true,
           },
         }, // This will return an array of Post objects
@@ -116,13 +116,17 @@ async function PrismaGetUserProfile(selectedUserName) {
 }
 
 // Function to Update user Profile based on authenticatedUserName
-async function PrismaUpdateLoggedUserProfile(authenticatedUserName, updatedBio,profilePicUrl) {
+async function PrismaUpdateLoggedUserProfile(
+  authenticatedUserName,
+  updatedBio,
+  profilePicUrl
+) {
   try {
     const updateProfile = await prismaQuery.user.update({
       where: { userName: authenticatedUserName },
       data: {
         bio: updatedBio,
-        profilePicUrl:profilePicUrl,
+        profilePicUrl: profilePicUrl,
       },
     });
     return "User Profile Updated!";
@@ -136,8 +140,8 @@ async function PrismaUpdateLoggedUserProfile(authenticatedUserName, updatedBio,p
 
 async function prismaGetAllUsers() {
   try {
-    const getAllContacts = await prismaQuery.contact.findMany({
-      include: { password: false },
+    const getAllContacts = await prismaQuery.user.findMany({
+      include: { hashedPassword: false },
     });
     console.log(getAllContacts);
     return getAllContacts;
