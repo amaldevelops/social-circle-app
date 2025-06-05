@@ -15,7 +15,9 @@ function MenuBar() {
         <Link to="/social-circle-app">Home</Link>
         <Link to="/social-circle-app/socialfeed">Social Feed</Link>
         <Link to="/social-circle-app/contacts">All Users</Link>
+
         <Link to="/social-circle-app/profile">Profile</Link>
+        <p>|</p>
         <Link to="/social-circle-app/projectinfo">Technical Info</Link>
 
         <a

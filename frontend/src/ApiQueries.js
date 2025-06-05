@@ -1,5 +1,21 @@
 const apiURL = import.meta.env.VITE_API_URL;
 
+async function loadJwtTokenToHttpHeader() {
+  try {
+    const jwtToken = localStorage.getItem("jwt");
+
+    if (!jwtToken) {
+      console.log("JWT Token invalid");
+    }
+
+    const Headers = { Authorization: `Bearer ${jwtToken}` };
+    return Headers;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 async function ApiLogin(formData) {
   try {
     let response = await fetch(`${apiURL}/social-circle-api/v1/login`, {
@@ -43,28 +59,12 @@ async function ApiRegister(formData) {
   }
 }
 
-async function loadJwtTokenToHttpHeader() {
-  try {
-    const jwtToken = localStorage.getItem("jwt");
-
-    if (!jwtToken) {
-      console.log("JWT Token invalid");
-    }
-
-    const Headers = { Authorization: `Bearer ${jwtToken}` };
-    return Headers;
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
-}
-
-async function loadProfile(contactID) {
+async function loadProfile(authenticatedUserName, selectedUserName) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/${contactID}/profile`,
+      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/${selectedUserName}/profile/view`,
       {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
@@ -77,6 +77,29 @@ async function loadProfile(contactID) {
     const queryResult = await response.json();
     console.log(queryResult);
     return queryResult;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function editProfile(authenticatedUserName, formData) {
+  try {
+    const storedJwt = await loadJwtTokenToHttpHeader();
+    console.log("Formsubmitted data", formData);
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/profile/edit`,
+      {
+        method: "PUT",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contactID: formData.contactID,
+          updatedBio: formData.updatedBio,
+        }),
+      }
+    );
+    const ApiResponse = await response.json();
+    console.log(ApiResponse);
+    return ApiResponse;
   } catch (error) {
     console.error(error);
   }
@@ -188,29 +211,6 @@ async function sendMessage(senderID, receiverID, message) {
     );
     const ApiResponse = await response.json();
     console.log(ApiResponse);
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-async function editProfile(formData) {
-  try {
-    const storedJwt = await loadJwtTokenToHttpHeader();
-    console.log("Formsubmitted data", formData);
-    let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/${formData.contactID}/profile`,
-      {
-        method: "PUT",
-        headers: { ...storedJwt, "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contactID: formData.contactID,
-          updatedBio: formData.updatedBio,
-        }),
-      }
-    );
-    const ApiResponse = await response.json();
-    console.log(ApiResponse);
-    return ApiResponse;
   } catch (error) {
     console.error(error);
   }
