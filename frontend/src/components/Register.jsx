@@ -5,7 +5,8 @@ import { ApiRegister } from "../ApiQueries.js";
 function Register() {
   const Navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
+    fullName: "",
+    userName: "",
     email: "",
     password: "",
     bio: "",
@@ -21,13 +22,13 @@ function Register() {
     <div>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
+        <label htmlFor="fullName">Full Name</label>
         <br />
         <input
-          name="name"
-          id="name"
+          name="fullName"
+          id="fullName"
           type="text"
-          value={formData.name}
+          value={formData.fullName}
           onChange={(event) => {
             setFormData({
               ...formData,
@@ -37,6 +38,24 @@ function Register() {
           required
         ></input>
         <br />
+
+        <label htmlFor="userName">Username</label>
+        <br />
+        <input
+          name="userName"
+          id="userName"
+          type="text"
+          value={formData.userName}
+          onChange={(event) => {
+            setFormData({
+              ...formData,
+              [event.target.name]: event.target.value,
+            });
+          }}
+          required
+        ></input>
+        <br />
+
         <label htmlFor="email">E-Mail</label>
         <br />
         <input

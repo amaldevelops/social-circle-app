@@ -45,7 +45,7 @@ const routes = [
         errorElement: <ErrorPage />,
       },
       {
-        path: "/social-circle-app/messages",
+        path: "/social-circle-app/socialfeed",
         element: <UserMessages />,
         errorElement: <ErrorPage />,
       },

@@ -2,17 +2,14 @@ const apiURL = import.meta.env.VITE_API_URL;
 
 async function ApiLogin(formData) {
   try {
-    let response = await fetch(
-      `${apiURL}/social-circle-api/v1/login`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      }
-    );
+    let response = await fetch(`${apiURL}/social-circle-api/v1/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
     if (!response.ok) {
       throw new Error(`HTTP Error!`);
     }
@@ -28,19 +25,17 @@ async function ApiRegister(formData) {
   try {
     console.log(formData);
 
-    let response = await fetch(
-      `${apiURL}/social-circle-app/v1/register`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          bio: formData.bio,
-        }),
-      }
-    );
+    let response = await fetch(`${apiURL}/social-circle-api/v1/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName: formData.fullName,
+        userName: formData.userName,
+        email: formData.email,
+        password: formData.password,
+        bio: formData.bio,
+      }),
+    });
     const ApiResponse = await response.json();
     console.log(ApiResponse);
   } catch (error) {

@@ -13,8 +13,8 @@ function MenuBar() {
     <>
       <div className="menuBar">
         <Link to="/social-circle-app">Home</Link>
-        <Link to="/social-circle-app/contacts">All Contacts</Link>
-        <Link to="/social-circle-app/messages">Messages</Link>
+        <Link to="/social-circle-app/socialfeed">Social Feed</Link>
+        <Link to="/social-circle-app/contacts">All Users</Link>
         <Link to="/social-circle-app/profile">Profile</Link>
         <Link to="/social-circle-app/projectinfo">Technical Info</Link>
 
