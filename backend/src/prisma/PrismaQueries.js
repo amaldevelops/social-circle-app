@@ -44,6 +44,7 @@ async function PrismaAuthenticateUser(email, password) {
       return {
         status: "Authentication Success!",
         id: authenticate.id,
+        userName:authenticate.userName,
         fullName: authenticate.fullName,
         email: authenticate.email,
         bio: authenticate.bio,

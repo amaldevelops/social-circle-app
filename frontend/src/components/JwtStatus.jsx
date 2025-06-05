@@ -6,6 +6,7 @@ function JWTStatus() {
     id: "  N/A", // Use "N/A" or null as initial values for better display
     status: "  Not Authenticated",
     contactName: "   N/A",
+    userName: "N/A",
     email: "   N/A",
     bio: "   N/A",
   });
@@ -20,6 +21,7 @@ function JWTStatus() {
         setJWT({
           id: JWTDecoded.id || "N/A", // Use || "N/A" for fallback if property is missing
           status: JWTDecoded.status || "Authenticated", // Assuming 'status' comes from payload
+          userName: JWTDecoded.userName || "N/A",
           contactName: JWTDecoded.contactName || "N/A",
           email: JWTDecoded.email || "N/A",
           bio: JWTDecoded.bio || "N/A",
@@ -48,7 +50,9 @@ function JWTStatus() {
       <h4>JWT Status</h4>
       <p>Authentication Status : {JWT.status}</p>
       <p>Contact ID : {JWT.id}</p>
-      <p>Contact Name : {JWT.contactName}</p>
+      <p>User Name : {JWT.userName}</p>
+      <p>Full Name : {JWT.contactName}</p>
+
       <p>E-Mail : {JWT.email}</p>
       <p>Bio : {JWT.bio}</p>
     </div>

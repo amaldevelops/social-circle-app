@@ -12,12 +12,14 @@ import jwt from "jsonwebtoken";
 // Function to create JWT
 async function createJWT(loginStatus) {
   try {
+    console.log("Yoooo",loginStatus)
     return new Promise((resolve, reject) => {
       jwt.sign(
         {
           status: loginStatus.status,
           id: loginStatus.id,
-          contactName: loginStatus.name,
+          contactName: loginStatus.fullName,
+          userName:loginStatus.userName,
           email: loginStatus.email,
           bio: loginStatus.bio,
         },
