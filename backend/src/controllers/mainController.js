@@ -92,6 +92,49 @@ async function register(req, res, next) {
 }
 
 //TO BE MODIFIED
+// Authenticated End Point to GET any users profile
+//Requirement: A user’s profile page should contain their profile information, profile photo, and posts
+
+async function getUserProfile(req, res, next) {
+  try {
+    // authenticatedUserName/:
+    const selectedUserName = parseInt(req.params.selectedUserName);
+
+    const getUserProfile = await PrismaGetUserProfile(selectedUserName);
+
+    res.json({
+      status: "Load logged in users profile",
+      response: getUserProfile,
+    });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Loading profile" });
+  }
+}
+
+//TO BE MODIFIED
+
+// This function will update the user profile based on contactID
+// PUT Method
+// Require contactID, updatedBio
+// Message is sent as body=>raw=>JSON,
+// JSON Format expected: {"contactID":"", "updatedBio":""}
+async function updateLoggedUserProfile(req, res, next) {
+  try {
+    const { contactID, updatedBio } = req.body;
+    const updateProfile = await PrismaUpdateLoggedUserProfile(
+      parseInt(contactID),
+      updatedBio
+    );
+    res.json({ response: updateProfile });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Updating profile" });
+  }
+}
+
+//TO BE MODIFIED
+
 async function getAllUsers(req, res, next) {
   try {
     const allContactsReceived = await prismaGetAllUsers();
@@ -149,43 +192,7 @@ async function followOrUnfollowUser(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
 
-async function getUserProfile(req, res, next) {
-  try {
-    const userProfileID = parseInt(req.params.contactID);
-    const getUserProfile = await PrismaGetUserProfile(userProfileID);
-
-    res.json({
-      status: "Load logged in users profile",
-      response: getUserProfile,
-    });
-  } catch (error) {
-    console.error(error);
-    res.json({ error: "Error Loading profile" });
-  }
-}
-
-//TO BE MODIFIED
-
-// This function will update the user profile based on contactID
-// PUT Method
-// Require contactID, updatedBio
-// Message is sent as body=>raw=>JSON,
-// JSON Format expected: {"contactID":"", "updatedBio":""}
-async function updateLoggedUserProfile(req, res, next) {
-  try {
-    const { contactID, updatedBio } = req.body;
-    const updateProfile = await PrismaUpdateLoggedUserProfile(
-      parseInt(contactID),
-      updatedBio
-    );
-    res.json({ response: updateProfile });
-  } catch (error) {
-    console.error(error);
-    res.json({ error: "Error Updating profile" });
-  }
-}
 
 //TO BE MODIFIED
 async function homeFeed(req, res, next) {

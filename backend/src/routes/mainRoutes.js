@@ -27,56 +27,56 @@ mainRouter.post("/social-circle-api/v1/register", register); // POST End Point t
 // Requirement: Ability to register new users
 
 mainRouter.get(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/:selected-user-name/profile/view",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/:selectedUserName/profile/view",
   authenticateJWT,
   getUserProfile
 ); // Authenticated End Point to GET any users profile
 //Requirement: A user’s profile page should contain their profile information, profile photo, and posts
 
 mainRouter.get(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/all-users",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/all-users",
   authenticateJWT,
   getAllUsers
 ); // Authenticated End Point to GET all the users registered
 //Requirement: There should be an index page for users, which shows all users and buttons for sending follow requests to users the user is not already following or have a pending request.
 
 mainRouter.put(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/all-users/:selected-user-name/followstatus",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/all-users/:selectedUserName/followstatus",
   authenticateJWT,
   followOrUnfollowUser
 ); // Authenticated End Point to follow request to selected user, this can be combined with GET all users endpoint to display and send requests
 //Requirement: Users can send follow requests to other users.
 
 mainRouter.put(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/profile/edit",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/profile/edit",
   authenticateJWT,
   updateLoggedUserProfile
 ); // Authenticated End Point to update logged in users profile
 //Requirement: Users can create a profile with a profile picture.
 
 mainRouter.get(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/all-users/:selected-user-name/home-feed",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/all-users/:selectedUserName/home-feed",
   authenticateJWT,
   homeFeed
 ); // Authenticated End Point to get all recent posts of logged in user and followers
 //Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 
 mainRouter.post(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/new-post",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/new-post",
   authenticateJWT,
   createNewPost
 ); // Authenticated End Point to create new posts
 //Requirement: Users can create posts
 
 mainRouter.get(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/like",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId/like",
   authenticateJWT,
   likePosts
 ); // Authenticated End Point to like and unlike posts
 //Requirement: Users can like and unlike posts
 
 mainRouter.get(
-  "/social-circle-api/v1/authorized/:authenticated-user-name/posts/:post-id/comment",
+  "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId/comment",
   authenticateJWT,
   commentOnPosts
 ); // Authenticated End Point to comment on posts
