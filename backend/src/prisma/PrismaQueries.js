@@ -115,13 +115,14 @@ async function PrismaGetUserProfile(selectedUserName) {
   }
 }
 
-// Function to Update user Profile based on contactID
-async function PrismaUpdateLoggedUserProfile(contactID, updatedBio) {
+// Function to Update user Profile based on authenticatedUserName
+async function PrismaUpdateLoggedUserProfile(authenticatedUserName, updatedBio,profilePicUrl) {
   try {
-    const updateProfile = await prismaQuery.contact.update({
-      where: { id: contactID },
+    const updateProfile = await prismaQuery.user.update({
+      where: { userName: authenticatedUserName },
       data: {
         bio: updatedBio,
+        profilePicUrl:profilePicUrl,
       },
     });
     return "User Profile Updated!";

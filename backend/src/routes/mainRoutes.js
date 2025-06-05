@@ -33,6 +33,13 @@ mainRouter.get(
 ); // Authenticated End Point to GET any users profile
 //Requirement: A user’s profile page should contain their profile information, profile photo, and posts
 
+mainRouter.put(
+  "/social-circle-api/v1/authorized/:authenticatedUserName/profile/edit",
+  authenticateJWT,
+  updateLoggedUserProfile
+); // Authenticated End Point to update logged in users profile
+//Requirement: Users can create a profile with a profile picture.
+
 mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticatedUserName/all-users",
   authenticateJWT,
@@ -47,12 +54,7 @@ mainRouter.put(
 ); // Authenticated End Point to follow request to selected user, this can be combined with GET all users endpoint to display and send requests
 //Requirement: Users can send follow requests to other users.
 
-mainRouter.put(
-  "/social-circle-api/v1/authorized/:authenticatedUserName/profile/edit",
-  authenticateJWT,
-  updateLoggedUserProfile
-); // Authenticated End Point to update logged in users profile
-//Requirement: Users can create a profile with a profile picture.
+
 
 mainRouter.get(
   "/social-circle-api/v1/authorized/:authenticatedUserName/all-users/:selectedUserName/home-feed",

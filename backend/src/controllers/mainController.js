@@ -91,11 +91,10 @@ async function register(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
 //Requirement: A user’s profile page should contain their profile information, profile photo, and posts
 // Authenticated End Point to GET any users profile
 // POST Method
-// Require selectedUserName and stored JWT sent as JSON
+// Require selectedUserName to be sent as JSON
 // Request is sent as body=>raw=>JSON
 // Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
 // JSON Format: {"selectedUserName":"Send the required profiles username"}
@@ -117,18 +116,17 @@ async function getUserProfile(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
-
 // This function will update the user profile based on contactID
 // PUT Method
-// Require contactID, updatedBio
+// Require authenticatedUserName, updatedBio,profilePicUrl
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
 // Message is sent as body=>raw=>JSON,
-// JSON Format expected: {"contactID":"", "updatedBio":""}
+// JSON Format expected: {"authenticatedUserName":"maverick", "updatedBio":"Top Gun 2 Actor","profilePicUrl":"/"}
 async function updateLoggedUserProfile(req, res, next) {
   try {
-    const { contactID, updatedBio } = req.body;
+    const { authenticatedUserName, updatedBio, profilePicUrl } = req.body;
     const updateProfile = await PrismaUpdateLoggedUserProfile(
-      parseInt(contactID),
+      authenticatedUserName,
       updatedBio
     );
     res.json({ response: updateProfile });
