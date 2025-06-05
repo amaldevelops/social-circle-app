@@ -136,68 +136,46 @@ async function updateLoggedUserProfile(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
-
 // GET Method
-// Require 
+// Require: N/a
 // Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
 // Message is sent as body=>raw=>JSON,
-// JSON Format expected: {"authenticatedUserName":"maverick", "updatedBio":"Top Gun 2 Actor","profilePicUrl":"/"}
+// JSON Format expected: N/a
 
 async function getAllUsers(req, res, next) {
   try {
     const allContactsReceived = await prismaGetAllUsers();
     console.log(allContactsReceived);
-    res.json({ status: "Get all contacts", response: allContactsReceived });
+    res.json({
+      status: "Get all registered users",
+      response: allContactsReceived,
+    });
   } catch (error) {
     console.error(error);
   }
 }
 
-// async function getUserProfile(req, res, next) {
-//   try {
-//     const contactID = parseInt(req.params.loggedInUserID);
-//     console.log(contactID);
-//     const getUserMessages = await contactMessages(contactID);
-//     console.log(getUserMessages);
-//     res.json({
-//       status: "Get logged in users messages",
-//       response: getUserMessages,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.json({ error: "Error Fetching messages" });
-//   }
-// }
-// Function to send messages to a contact
-// POST Method
-// Require loggedInUserID, contactID, message
-// Message is sent as body=>raw=>JSON
-// JSON Format: {"loggedInUserID":"","contactID":"", "message":""}
-
 //TO BE MODIFIED
+// PUT Method
+// Require authenticatedUserName, selectedUserName
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// Message is sent as body=>raw=>JSON,
+// JSON Format expected: {"authenticatedUserName":"maverick", "selectedUserName":"jettrodriguez9"}
 async function followOrUnfollowUser(req, res, next) {
   try {
-    const senderID = parseInt(req.params.loggedInUserID);
-    const receiverID = parseInt(req.params.contactID);
-
-    console.log();
-
-    // const { message, loggedInUserID, contactID } = req.body;
-
-    const { message } = req.body;
+    const authenticatedUserName = req.params.authenticatedUserName;
+    const selectedUserName = req.params.selectedUserName;
 
     const response = await PrismaFollowOrUnfollowUser(
-      senderID,
-      receiverID,
-      message
+      authenticatedUserName,
+      selectedUserName
     );
     res.json({
       response: response,
     });
   } catch (error) {
     console.error(error);
-    res.json({ error: "Error Sending messages" });
+    res.json({ error: "Error changing follow status" });
   }
 }
 

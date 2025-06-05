@@ -151,21 +151,78 @@ async function prismaGetAllUsers() {
   }
 }
 
-// Function to send message to another contact based on sender contact ID and receiver contact ID
+// Function to follow or unfollow another user based on authenticatedUserName and selectedUserName
 
-async function PrismaFollowOrUnfollowUser(senderID, receiverID, message) {
+async function PrismaFollowOrUnfollowUser(
+  authenticatedUserName,
+  selectedUserName
+) {
   try {
-    const newMessage = await prismaQuery.message.create({
-      data: {
-        message: message,
-        contactIdSender: senderID,
-        contactIdReceiver: receiverID,
+    // 1. Find the IDs of both users
+    const authenticatedUser = await prisma.user.findUnique({
+      where: { userName: authenticatedUserName },
+      select: { id: true },
+    });
+
+    const selectedUser = await prisma.user.findUnique({
+      where: { userName: selectedUserName },
+      select: { id: true },
+    });
+
+    // Handle cases where users are not found
+    if (!authenticatedUser) {
+      return { success: false, message: "Authenticated user not found." };
+    }
+    if (!selectedUser) {
+      return { success: false, message: "Selected user not found." };
+    }
+
+    // Prevent a user from following themselves
+    if (authenticatedUser.id === selectedUser.id) {
+      return { success: false, message: "Users cannot follow themselves." };
+    }
+
+    // 2. Check if a follow relationship already exists
+    const existingFollow = await prisma.follow.findUnique({
+      where: {
+        followerId_followingId: {
+          followerId: authenticatedUser.id,
+          followingId: selectedUser.id,
+        },
       },
     });
-    return "Message Sent";
+
+    let actionMessage = "";
+
+    if (existingFollow) {
+      // If a follow relationship already exists, this means "Unfollow"
+      await prisma.follow.delete({
+        where: {
+          id: existingFollow.id, // Use the ID of the existing follow record
+        },
+      });
+      actionMessage = `Successfully unfollowed ${selectedUserName}.`;
+      console.log(actionMessage);
+      return { success: true, message: actionMessage, status: "UNFOLLOWED" };
+    } else {
+      // If no follow relationship exists, this means "Follow"
+      // Create a new follow request with PENDING status
+      const newFollow = await prisma.follow.create({
+        data: {
+          followerId: authenticatedUser.id,
+          followingId: selectedUser.id,
+          status: "PENDING", // Default status as per your schema
+        },
+      });
+      actionMessage = `Successfully sent follow request to ${selectedUserName}. Status: PENDING.`;
+      console.log(actionMessage);
+      return { success: true, message: actionMessage, status: "PENDING" };
+    }
   } catch (error) {
-    console.error(error);
-    return "Error Sending Message";
+    console.error("Error in PrismaFollowOrUnfollowUser:", error);
+    return { success: false, message: "Error updating follow status." };
+  } finally {
+    await prisma.$disconnect(); // Consider whether to disconnect here or in a higher-level function
   }
 }
 
