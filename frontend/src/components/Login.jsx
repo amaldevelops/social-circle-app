@@ -15,7 +15,7 @@ function Login() {
 
     // Add a 2-second delay before navigating
     setTimeout(() => {
-      Navigate("/social-circle-app/messages");
+      Navigate("/social-circle-app/socialfeed");
     }, 2000); // 2000 milliseconds = 2 seconds
   };
 
