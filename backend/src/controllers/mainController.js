@@ -92,23 +92,28 @@ async function register(req, res, next) {
 }
 
 //TO BE MODIFIED
-// Authenticated End Point to GET any users profile
 //Requirement: A user’s profile page should contain their profile information, profile photo, and posts
+// Authenticated End Point to GET any users profile
+// POST Method
+// Require selectedUserName and stored JWT sent as JSON
+// Request is sent as body=>raw=>JSON
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// JSON Format: {"selectedUserName":"Send the required profiles username"}
 
 async function getUserProfile(req, res, next) {
   try {
     // authenticatedUserName/:
-    const selectedUserName = parseInt(req.params.selectedUserName);
+    const selectedUserName = req.params.selectedUserName;
 
     const getUserProfile = await PrismaGetUserProfile(selectedUserName);
 
     res.json({
-      status: "Load logged in users profile",
+      status: `Load ${selectedUserName} profile`,
       response: getUserProfile,
     });
   } catch (error) {
     console.error(error);
-    res.json({ error: "Error Loading profile" });
+    res.json({ error: `Error Loading: ${selectedUserName} profile` });
   }
 }
 
@@ -191,8 +196,6 @@ async function followOrUnfollowUser(req, res, next) {
     res.json({ error: "Error Sending messages" });
   }
 }
-
-
 
 //TO BE MODIFIED
 async function homeFeed(req, res, next) {

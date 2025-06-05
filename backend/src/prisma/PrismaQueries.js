@@ -57,6 +57,75 @@ async function PrismaAuthenticateUser(email, password) {
   }
 }
 
+// Function to read profile based on contactID supplied
+async function PrismaGetUserProfile(selectedUserName) {
+  try {
+    const userProfile = await prismaQuery.user.findUnique({
+      where: { userName: selectedUserName },
+      select: {
+        email: true,
+        hashedPassword: false,
+        bio: true,
+        profilePicUrl: true,
+        fullName: true,
+        posts: true, // This will return an array of Post objects
+        followers: {
+          // If you want to see who is following this user
+          select: {
+            id: true, // The ID of the Follow record
+            status: true, // The status of the follow relationship
+            follower: {
+              select: {
+                id: true,
+                userName: true,
+                fullName: true,
+                profilePicUrl: true,
+              },
+            },
+          },
+        },
+        following: {
+          // If you want to see who this user is following
+          select: {
+            id: true, // The ID of the Follow record
+            status: true, // The status of the follow relationship
+            following: {
+              select: {
+                id: true,
+                userName: true, // Add userName for display
+                fullName: true,
+                profilePicUrl: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    console.log(JSON.stringify(userProfile, null, 2)); // Use JSON.stringify for better console output
+    return userProfile;
+  } catch (error) {
+    console.error("Error in PrismaGetUserProfile:", error); // Add context to your error log
+    return "Error Fetching Profile"; // Consider throwing the error or returning null/object for better error handling
+  }
+}
+
+// Function to Update user Profile based on contactID
+async function PrismaUpdateLoggedUserProfile(contactID, updatedBio) {
+  try {
+    const updateProfile = await prismaQuery.contact.update({
+      where: { id: contactID },
+      data: {
+        bio: updatedBio,
+      },
+    });
+    return "User Profile Updated!";
+  } catch (error) {
+    console.error(error);
+    return "User Profile Update ERROR !";
+  }
+}
+
 // Function to get all contacts stored on database
 
 async function prismaGetAllUsers() {
@@ -87,44 +156,6 @@ async function PrismaFollowOrUnfollowUser(senderID, receiverID, message) {
   } catch (error) {
     console.error(error);
     return "Error Sending Message";
-  }
-}
-
-// Function to read profile based on contactID supplied
-async function PrismaGetUserProfile(contactID) {
-  try {
-    const userProfile = await prismaQuery.contact.findUnique({
-      where: { id: contactID },
-      select: {
-        email: true,
-        password: false,
-        bio: true,
-        messagesSent: false,
-        messagesReceived: false,
-        password: false,
-      },
-    });
-    console.log(userProfile);
-    return userProfile;
-  } catch (error) {
-    console.error(error);
-    return "Error Fetching Profile";
-  }
-}
-
-// Function to Update user Profile based on contactID
-async function PrismaUpdateLoggedUserProfile(contactID, updatedBio) {
-  try {
-    const updateProfile = await prismaQuery.contact.update({
-      where: { id: contactID },
-      data: {
-        bio: updatedBio,
-      },
-    });
-    return "User Profile Updated!";
-  } catch (error) {
-    console.error(error);
-    return "User Profile Update ERROR !";
   }
 }
 
