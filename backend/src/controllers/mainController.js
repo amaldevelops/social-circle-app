@@ -178,7 +178,6 @@ async function followOrUnfollowUser(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
 //Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
 // GET Method
 // Require:authenticatedUserName,
@@ -196,48 +195,64 @@ async function homeFeed(req, res, next) {
   }
 }
 
-//TO BE MODIFIED
+//Requirement: Users can create posts
+// Authenticated End Point to GET any users profile
+// POST Method
+// Require authenticatedUserName to be sent as JSON
+// Request is sent as body=>raw=>JSON
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// JSON Format: {"authenticatedUserName":"maverick", "post":"My First post"}
 async function createNewPost(req, res, next) {
   try {
-    const { contactID, updatedBio } = req.body;
-    const updateProfile = await PrismaCreateNewPost(
-      parseInt(contactID),
-      updatedBio
-    );
-    res.json({ response: updateProfile });
+    const { authenticatedUserName, post } = req.body;
+    const newPost = await PrismaCreateNewPost(authenticatedUserName, post);
+    res.json({ response: newPost });
   } catch (error) {
     console.error(error);
-    res.json({ error: "Error Updating profile" });
+    res.json({ error: "Error Creating post" });
   }
 }
 
-//TO BE MODIFIED
+//Requirement: Users can like and unlike posts
+// PUT Method
+// Require authenticatedUserName and postId to be sent as JSON
+// Request is sent as body=>raw=>JSON
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// JSON Format: {"authenticatedUserName":"maverick","postId":"1"}
+
 async function likePosts(req, res, next) {
   try {
-    const { contactID, updatedBio } = req.body;
-    const updateProfile = await PrismaLikePosts(
-      parseInt(contactID),
-      updatedBio
+    const { authenticatedUserName, postId } = req.body;
+    const likeUnlikePosts = await PrismaLikePosts(
+      authenticatedUserName,
+      parseInt(postId)
     );
-    res.json({ response: updateProfile });
+    res.json({ response: likeUnlikePosts });
   } catch (error) {
     console.error(error);
     res.json({ error: "Error Updating profile" });
   }
 }
 
-//TO BE MODIFIED
+//Requirement: Users can comment on posts
+// POST Method
+// Require authenticatedUserName and postId, comment to be sent as JSON
+// Request is sent as body=>raw=>JSON
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// JSON Format: {"authenticatedUserName":"maverick","postId":"1","commentContent":"Awesome post matey !"}
+
 async function commentOnPosts(req, res, next) {
   try {
-    const { contactID, updatedBio } = req.body;
-    const updateProfile = await PrismaCommentOnPosts(
-      parseInt(contactID),
-      updatedBio
+    const { authenticatedUserName, postId, commentContent } = req.body;
+    const newComment = await PrismaCommentOnPosts(
+      authenticatedUserName,
+      parseInt(postId),
+      commentContent
     );
-    res.json({ response: updateProfile });
+    res.json({ response: newComment });
   } catch (error) {
     console.error(error);
-    res.json({ error: "Error Updating profile" });
+    res.json({ error: "Error Creating comment" });
   }
 }
 

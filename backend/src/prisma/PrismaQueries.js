@@ -317,57 +317,164 @@ async function PrismaHomeFeed(currentUserName) {
   }
 }
 
-async function PrismaCommentOnPosts(name, email, password, bio) {
+async function PrismaCommentOnPosts(
+  authenticatedUserName,
+  postId,
+  commentContent
+) {
+  //
   try {
-    const createContact = await prismaQuery.contact.create({
+    // 1. Get the ID of the authenticated user
+    const authenticatedUser = await prismaQuery.user.findUnique({
+      where: { userName: authenticatedUserName },
+      select: { id: true },
+    });
+
+    if (!authenticatedUser) {
+      console.log(`Authenticated user not found: ${authenticatedUserName}`);
+      return { success: false, message: "Authenticated user not found." };
+    }
+
+    // 2. Check if the post exists
+    const postExists = await prismaQuery.post.findUnique({
+      where: { id: postId },
+      select: { id: true },
+    });
+
+    if (!postExists) {
+      console.log(`Post with ID ${postId} not found.`);
+      return { success: false, message: `Post with ID ${postId} not found.` };
+    }
+
+    // 3. Create a new comment record in the Comment model
+    const newComment = await prismaQuery.comment.create({
       data: {
-        name: name,
-        email: email,
-        password: await bcrypt.hash(password, 10),
-        bio: bio,
+        userId: authenticatedUser.id, // Link to the user who made the comment
+        postId: postId, // Link to the post being commented on
+        content: commentContent, // The actual comment text
+      },
+      select: {
+        // Optionally select specific fields to return (e.g., confirmation)
+        id: true,
+        content: true,
+        createdAt: true,
+        user: { select: { userName: true, fullName: true } }, // Include commenter's info
+        post: { select: { id: true } }, // Include post info
       },
     });
 
-    return "User Registered successfully !";
+    console.log(
+      `Comment posted successfully by ${authenticatedUserName} on post ${postId}.`
+    );
+    return {
+      success: true,
+      message: "Comment posted successfully!",
+      data: newComment,
+    };
   } catch (error) {
-    console.error(error);
-    return "User Registration Error, Please try again !";
+    console.error("Error in PrismaCommentOnPosts:", error);
+    return {
+      success: false,
+      message: "Comment creation error, please try again!",
+    };
   }
 }
 
-async function PrismaLikePosts(name, email, password, bio) {
+async function PrismaLikePosts(authenticatedUserName, postId) {
   try {
-    const createContact = await prismaQuery.contact.create({
-      data: {
-        name: name,
-        email: email,
-        password: await bcrypt.hash(password, 10),
-        bio: bio,
+    // 1. Get the ID of the authenticated user
+    const authenticatedUser = await prismaQuery.user.findUnique({
+      where: { userName: authenticatedUserName },
+      select: { id: true },
+    });
+
+    if (!authenticatedUser) {
+      console.log(`Authenticated user not found: ${authenticatedUserName}`);
+      return { success: false, message: "Authenticated user not found." };
+    }
+
+    // 2. Check if the post exists
+    const postExists = await prismaQuery.post.findUnique({
+      where: { id: postId },
+      select: { id: true },
+    });
+
+    if (!postExists) {
+      console.log(`Post with ID ${postId} not found.`);
+      return { success: false, message: `Post with ID ${postId} not found.` };
+    }
+
+    // 3. Check for an existing like relationship
+    const existingLike = await prismaQuery.postLike.findUnique({
+      where: {
+        userId_postId: {
+          // This uses the compound unique index defined in schema
+          userId: authenticatedUser.id,
+          postId: postId,
+        },
       },
     });
 
-    return "User Registered successfully !";
+    let actionMessage = "";
+    let actionStatus = "";
+
+    if (existingLike) {
+      // If a like exists, this means the user wants to UNLIKE the post
+      await prismaQuery.postLike.delete({
+        where: {
+          userId_postId: {
+            userId: authenticatedUser.id,
+            postId: postId,
+          },
+        },
+      });
+      actionMessage = "Post unliked successfully!";
+      actionStatus = "UNLIKED";
+      console.log(`${authenticatedUserName} unliked post ${postId}`);
+    } else {
+      // If no like exists, this means the user wants to LIKE the post
+      await prismaQuery.postLike.create({
+        data: {
+          userId: authenticatedUser.id,
+          postId: postId,
+        },
+      });
+      actionMessage = "Post liked successfully!";
+      actionStatus = "LIKED";
+      console.log(`${authenticatedUserName} liked post ${postId}`);
+    }
+
+    return { success: true, message: actionMessage, status: actionStatus };
   } catch (error) {
-    console.error(error);
-    return "User Registration Error, Please try again !";
+    console.error("Error in PrismaLikePosts:", error);
+    // Provide more specific error messages if possible (e.g., from PrismaClientKnownRequestError)
+    return {
+      success: false,
+      message: "Error liking/unliking post, please try again!",
+    };
   }
 }
 
-async function PrismaCreateNewPost(name, email, password, bio) {
+async function PrismaCreateNewPost(authenticatedUserName, post) {
   try {
-    const createContact = await prismaQuery.contact.create({
+    const authenticatedUserId = await prismaQuery.user.findUnique({
+      where: { userName: authenticatedUserName },
+      select: { id: true },
+    });
+
+    console.log("User Id", authenticatedUserId);
+
+    const createContact = await prismaQuery.post.create({
       data: {
-        name: name,
-        email: email,
-        password: await bcrypt.hash(password, 10),
-        bio: bio,
+        authorId: authenticatedUserId.id,
+        content: post,
       },
     });
 
-    return "User Registered successfully !";
+    return "Post created !";
   } catch (error) {
     console.error(error);
-    return "User Registration Error, Please try again !";
+    return "Post creation error !";
   }
 }
 

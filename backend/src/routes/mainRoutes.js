@@ -79,7 +79,8 @@ mainRouter.post(
 
 // Authenticated End Point to like and unlike posts
 //Requirement: Users can like and unlike posts
-mainRouter.get(
+
+mainRouter.put(
   "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId/like",
   authenticateJWT,
   likePosts
@@ -87,7 +88,7 @@ mainRouter.get(
 
 // Authenticated End Point to comment on posts
 //Requirement: Users can comment on posts
-mainRouter.get(
+mainRouter.post(
   "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId/comment",
   authenticateJWT,
   commentOnPosts
