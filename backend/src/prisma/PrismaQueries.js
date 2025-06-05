@@ -159,12 +159,12 @@ async function PrismaFollowOrUnfollowUser(
 ) {
   try {
     // 1. Find the IDs of both users
-    const authenticatedUser = await prisma.user.findUnique({
+    const authenticatedUser = await prismaQuery.user.findUnique({
       where: { userName: authenticatedUserName },
       select: { id: true },
     });
 
-    const selectedUser = await prisma.user.findUnique({
+    const selectedUser = await prismaQuery.user.findUnique({
       where: { userName: selectedUserName },
       select: { id: true },
     });
@@ -183,7 +183,7 @@ async function PrismaFollowOrUnfollowUser(
     }
 
     // 2. Check if a follow relationship already exists
-    const existingFollow = await prisma.follow.findUnique({
+    const existingFollow = await prismaQuery.follow.findUnique({
       where: {
         followerId_followingId: {
           followerId: authenticatedUser.id,
@@ -196,7 +196,7 @@ async function PrismaFollowOrUnfollowUser(
 
     if (existingFollow) {
       // If a follow relationship already exists, this means "Unfollow"
-      await prisma.follow.delete({
+      await prismaQuery.follow.delete({
         where: {
           id: existingFollow.id, // Use the ID of the existing follow record
         },
@@ -207,7 +207,7 @@ async function PrismaFollowOrUnfollowUser(
     } else {
       // If no follow relationship exists, this means "Follow"
       // Create a new follow request with PENDING status
-      const newFollow = await prisma.follow.create({
+      const newFollow = await prismaQuery.follow.create({
         data: {
           followerId: authenticatedUser.id,
           followingId: selectedUser.id,
@@ -222,7 +222,7 @@ async function PrismaFollowOrUnfollowUser(
     console.error("Error in PrismaFollowOrUnfollowUser:", error);
     return { success: false, message: "Error updating follow status." };
   } finally {
-    await prisma.$disconnect(); // Consider whether to disconnect here or in a higher-level function
+    await prismaQuery.$disconnect(); // Consider whether to disconnect here or in a higher-level function
   }
 }
 
