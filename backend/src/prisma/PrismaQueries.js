@@ -57,7 +57,7 @@ async function PrismaAuthenticateUser(email, password) {
   }
 }
 
-// Function to read profile based on contactID supplied
+// Function to read profile based on selectedUserName supplied
 async function PrismaGetUserProfile(selectedUserName) {
   try {
     const userProfile = await prismaQuery.user.findUnique({
@@ -68,7 +68,12 @@ async function PrismaGetUserProfile(selectedUserName) {
         bio: true,
         profilePicUrl: true,
         fullName: true,
-        posts: true, // This will return an array of Post objects
+        posts: {
+          select: {
+            id:true,
+            content: true,
+          },
+        }, // This will return an array of Post objects
         followers: {
           // If you want to see who is following this user
           select: {
@@ -78,8 +83,8 @@ async function PrismaGetUserProfile(selectedUserName) {
               select: {
                 id: true,
                 userName: true,
-                fullName: true,
-                profilePicUrl: true,
+                fullName: false,
+                profilePicUrl: false,
               },
             },
           },
@@ -93,8 +98,8 @@ async function PrismaGetUserProfile(selectedUserName) {
               select: {
                 id: true,
                 userName: true, // Add userName for display
-                fullName: true,
-                profilePicUrl: true,
+                fullName: false,
+                profilePicUrl: false,
               },
             },
           },
