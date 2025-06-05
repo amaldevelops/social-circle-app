@@ -3,7 +3,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 async function ApiLogin(formData) {
   try {
     let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/login`,
+      `${apiURL}/social-circle-api/v1/login`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -29,7 +29,7 @@ async function ApiRegister(formData) {
     console.log(formData);
 
     let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/register`,
+      `${apiURL}/social-circle-app/v1/register`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
