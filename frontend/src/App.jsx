@@ -1,4 +1,3 @@
-import { useState } from "react";
 import ProjectInfo from "./components/ProjectInfo";
 import JWTStatus from "./components/JwtStatus";
 import { useNavigate } from "react-router-dom";
@@ -10,16 +9,14 @@ import { Outlet } from "react-router-dom";
 import "./App.css";
 
 function App() {
-  const [formData, setFormData] = useState({
+  const formData = {
     email: "demoaccount@amalk.au",
     password: "Demo2025",
-  });
-
+    //https://avatars.githubusercontent.com/u/65403645
+  };
   const Navigate = useNavigate();
 
-  const handleSubmit = async (event) => {
-    // Make the function asynchronous
-
+  const handleSubmit = async () => {
     await ApiLogin(formData); // Await the API login call to complete
 
     // Add a 2-second delay before navigating
