@@ -82,18 +82,19 @@ async function loadProfile(decodedJwt) {
   }
 }
 
-async function editProfile(authenticatedUserName, formData) {
+async function editProfile(formData) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
     console.log("Formsubmitted data", formData);
     let response = await fetch(
-      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/profile/edit`,
+      `${apiURL}/social-circle-api/v1/authorized/${formData.authenticatedUserName}/profile/edit`,
       {
         method: "PUT",
         headers: { ...storedJwt, "Content-Type": "application/json" },
         body: JSON.stringify({
-          contactID: formData.contactID,
+          authenticatedUserName: formData.authenticatedUserName,
           updatedBio: formData.updatedBio,
+          profilePicUrl: formData.profilePicUrl,
         }),
       }
     );

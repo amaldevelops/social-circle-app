@@ -17,6 +17,7 @@ function Profile() {
   // State for the form inputs for updating the profile
   const [formInput, setFormInput] = useState({
     bio: "", // Initialized with empty string
+    profilePicUrl: "",
   });
 
   const [loading, setLoading] = useState(true); // Loading state for initial fetch
@@ -52,14 +53,17 @@ function Profile() {
             userName: loadedProfileInfo.response.userName || "",
             fullName: loadedProfileInfo.response.fullName || "",
             posts: loadedProfileInfo.response.posts || [],
-            profilePicUrl: "",
             followers: loadedProfileInfo.response.followers || [],
             following: loadedProfileInfo.response.following || [],
             email: loadedProfileInfo.response.email || "",
             bio: loadedProfileInfo.response.bio || "",
+            profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
           }));
           // Set initial form input value to current bio
-          setFormInput({ bio: loadedProfileInfo.response.bio || "" });
+          setFormInput({
+            bio: loadedProfileInfo.response.bio || "",
+            profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
+          });
         } else {
           setError("Failed to load profile: Unexpected data format.");
         }
@@ -100,14 +104,19 @@ function Profile() {
       // Call editProfile with the necessary data
       // Assuming editProfile expects contactID (which is userProfile.id) and the updatedBio
       const formData = {
-        contactID: userProfile.id,
+        authenticatedUserName: userProfile.userName,
         updatedBio: formInput.bio,
+        profilePicUrl: formInput.profilePicUrl,
       };
       const response = await editProfile(formData);
 
       if (response && response.status === "User Profile Updated") {
         // Update the displayed profile immediately on success
-        setUserProfile((prev) => ({ ...prev, bio: formInput.bio }));
+        setUserProfile((prev) => ({
+          ...prev,
+          bio: formInput.bio,
+          profilePicUrl: formInput.profilePicUrl,
+        }));
         setUpdateSuccess(true);
       } else {
         // setUpdateError(response.message || "Failed to update profile.");
@@ -136,6 +145,12 @@ function Profile() {
     <div>
       <JWTStatus />
       <h1>User Profile</h1>
+      <img
+        src={userProfile.profilePicUrl}
+        alt="Profile Pic"
+        width="50"
+        height="75"
+      ></img>
       <p>User Name: {userProfile.userName}</p>
       <p>Full Name: {userProfile.fullName}</p>
       <p>E-Mail: {userProfile.email}</p>
@@ -179,6 +194,15 @@ function Profile() {
           rows="5" // Add rows for better textarea appearance
           cols="30"
         ></textarea>
+        <br />
+        <label htmlFor="profilePicUrl">Profile Pic</label>
+        <br />
+        <input
+          name="profilePicUrl"
+          id="profilePicUrl"
+          value={formInput.profilePicUrl}
+          onChange={handleChange}
+        ></input>
         <br />
 
         <button type="submit" disabled={isUpdating}>

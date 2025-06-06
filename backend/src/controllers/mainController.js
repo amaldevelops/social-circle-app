@@ -127,7 +127,7 @@ async function updateLoggedUserProfile(req, res, next) {
     const { authenticatedUserName, updatedBio, profilePicUrl } = req.body;
     const updateProfile = await PrismaUpdateLoggedUserProfile(
       authenticatedUserName,
-      updatedBio
+      updatedBio,profilePicUrl
     );
     res.json({ response: updateProfile });
   } catch (error) {
