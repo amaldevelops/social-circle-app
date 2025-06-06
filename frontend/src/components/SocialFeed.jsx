@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
-import { loadProfile, decodeJWTPayload, newPost } from "../ApiQueries.js";
+import {
+  loadProfile,
+  decodeJWTPayload,
+  newPost,
+  socialFeedQuery,
+} from "../ApiQueries.js";
 import JWTStatus from "./JwtStatus.jsx";
 
 function SocialFeed() {
@@ -14,10 +19,14 @@ function SocialFeed() {
     following: [],
   });
 
+  const [socialFeedLoad, setSocialFeed] = useState({
+    id: null,
+    fullName: "",
+  });
+
   // State for the form inputs for updating the new Post
   const [formInput, setFormInput] = useState({
     newPost: "", // Initialized with empty string
-    
   });
 
   const [loading, setLoading] = useState(true); // Loading state for initial fetch
@@ -44,7 +53,10 @@ function SocialFeed() {
         setUserProfile((prev) => ({ ...prev, id: decodedJwt.id }));
 
         const loadedProfileInfo = await loadProfile(decodedJwt);
-        console.log("Loadfdfdfsdf", loadedProfileInfo);
+        const loadSocialFeed = await socialFeedQuery(decodedJwt);
+
+        setSocialFeed(loadSocialFeed);
+        console.log("loadSocialFeed", loadSocialFeed);
 
         // Ensure loadedProfileInfo.response contains email and bio
         if (loadedProfileInfo && loadedProfileInfo.response) {
@@ -62,7 +74,6 @@ function SocialFeed() {
           // Set initial form input value to current bio
           setFormInput({
             SocialFeed: loadedProfileInfo.response.bio || "",
-            
           });
         } else {
           setError("Failed to load profile: Unexpected data format.");
@@ -96,8 +107,6 @@ function SocialFeed() {
         post: formInput.newPost,
       };
       const response = await newPost(formData);
-
-   
     } catch (err) {
       console.error("Error Creating New post:", err);
       setUpdateError(
@@ -181,22 +190,14 @@ function SocialFeed() {
           {updateError && <p style={{ color: "red" }}>{updateError}</p>}
         </form>
       </div>
-      <div>
-        <h2>Your Posts</h2>
-        {userProfile.posts.map((post) => (
-          <div key={post.id}>
-            <h3>Post ID: {post.id}</h3>
-            <h4>Post Name: {post.content}</h4>
-          </div>
-        ))}
-      </div>
-      <h2>Your Followers Posts</h2>
-              {userProfile.posts.map((post) => (
-          <div key={post.id}>
-            <h3>Post ID: {post.id}</h3>
-            <h4>Post Name: {post.content}</h4>
-          </div>
-        ))}
+      <h2>Recent Posts</h2>
+      {socialFeedLoad.response.data.map((post) => (
+        <div key={post.id}>
+          <h3>
+            {post.author.userName}: {post.content}
+          </h3>
+        </div>
+      ))}
     </div>
   );
 }

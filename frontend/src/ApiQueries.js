@@ -169,16 +169,17 @@ function decodeJWTPayload(runOnRequest) {
   }
 }
 
-async function socialFeedQuery(authenticatedUserName, selectedUserName) {
+async function socialFeedQuery(decodedJwt) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/all-users/${selectedUserName}/home-feed`,
-      {
+      `${apiURL}/social-circle-api/v1/authorized/${decodedJwt.userName}/all-users/${decodedJwt.userName}/home-feed`,
+     {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
-      }
+      },
+      
     );
     if (!response.ok) {
       throw new Error(`HTTP Error! status:${response.status}`);

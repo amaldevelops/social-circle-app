@@ -187,9 +187,14 @@ async function followOrUnfollowUser(req, res, next) {
 // Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
 // Message is sent as body=>raw=>JSON,
 // JSON Format expected: N/a
+// URL Parameters:const authenticatedUserName = req.params.authenticatedUserName;const selectedUserName = req.params.selectedUserName;
+
 async function homeFeed(req, res, next) {
   try {
-    const { authenticatedUserName, selectedUserName } = req.body;
+    const authenticatedUserName = req.params.authenticatedUserName;
+
+    const selectedUserName = req.params.selectedUserName;
+
     const userHomeFeed = await PrismaHomeFeed(selectedUserName);
     res.json({ response: userHomeFeed });
   } catch (error) {
