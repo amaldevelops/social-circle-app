@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom"; // Import useLocation and useNavigate
 import JWTStatus from "./JwtStatus";
-import { loggedContactMessages, decodeJWTPayload } from "../ApiQueries.js";
+import { socialFeedQuery, decodeJWTPayload } from "../ApiQueries.js";
 
 import ContactList from "./ContactList";
 import ConversationView from "./ConversationView";
@@ -44,7 +44,7 @@ function UserMessages() {
 
       try {
         console.log("Fetching all messages for User ID:", decodedID.id);
-        const apiResponse = await loggedContactMessages(decodedID.id);
+        const apiResponse = await socialFeedQuery(decodedID.id);
 
         let messagesToSet = [];
         let newStatusMessage = "Messages loaded.";

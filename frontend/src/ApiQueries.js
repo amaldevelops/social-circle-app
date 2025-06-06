@@ -106,6 +106,29 @@ async function editProfile(formData) {
   }
 }
 
+async function newPost(formData) {
+  try {
+    const storedJwt = await loadJwtTokenToHttpHeader();
+    console.log("Formsubmitted data", formData);
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/${formData.authenticatedUserName}/new-post`,
+      {
+        method: "POST",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          authenticatedUserName: formData.authenticatedUserName,
+          post: formData.post,
+        }),
+      }
+    );
+    const ApiResponse = await response.json();
+    console.log(ApiResponse);
+    return ApiResponse;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function decodeJWTPayload(runOnRequest) {
   try {
     const jwtToken = localStorage.getItem("jwt");
@@ -146,12 +169,12 @@ function decodeJWTPayload(runOnRequest) {
   }
 }
 
-async function loggedContactMessages(contactID) {
+async function socialFeedQuery(authenticatedUserName, selectedUserName) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/${contactID}/messages`,
+      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/all-users/${selectedUserName}/home-feed`,
       {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
@@ -226,8 +249,9 @@ export {
   loadProfile,
   editProfile,
   decodeJWTPayload,
-  loggedContactMessages,
+  socialFeedQuery,
   clearJwtLogOut,
   allUsers,
   followRequest,
+  newPost,
 };

@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { loadProfile, decodeJWTPayload, editProfile } from "../ApiQueries.js";
+import { loadProfile, decodeJWTPayload, newPost } from "../ApiQueries.js";
 import JWTStatus from "./JwtStatus.jsx";
 
-function Profile() {
+function SocialFeed() {
   // State for displaying the user's current profile
   const [userProfile, setUserProfile] = useState({
     id: null,
@@ -14,10 +14,10 @@ function Profile() {
     following: [],
   });
 
-  // State for the form inputs for updating the profile
+  // State for the form inputs for updating the new Post
   const [formInput, setFormInput] = useState({
-    bio: "", // Initialized with empty string
-    profilePicUrl: "",
+    newPost: "", // Initialized with empty string
+    
   });
 
   const [loading, setLoading] = useState(true); // Loading state for initial fetch
@@ -61,8 +61,8 @@ function Profile() {
           }));
           // Set initial form input value to current bio
           setFormInput({
-            bio: loadedProfileInfo.response.bio || "",
-            profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
+            SocialFeed: loadedProfileInfo.response.bio || "",
+            
           });
         } else {
           setError("Failed to load profile: Unexpected data format.");
@@ -90,42 +90,18 @@ function Profile() {
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
 
-    setIsUpdating(true); // Set updating state to true
-    setUpdateError(null); // Clear previous update errors
-    setUpdateSuccess(false); // Reset success message
-
-    if (!userProfile.id) {
-      setUpdateError("User ID not available for profile update.");
-      setIsUpdating(false);
-      return;
-    }
-
     try {
-      // Call editProfile with the necessary data
-      // Assuming editProfile expects contactID (which is userProfile.id) and the updatedBio
       const formData = {
         authenticatedUserName: userProfile.userName,
-        updatedBio: formInput.bio,
-        profilePicUrl: formInput.profilePicUrl,
+        post: formInput.newPost,
       };
-      const response = await editProfile(formData);
+      const response = await newPost(formData);
 
-      if (response && response.status === "User Profile Updated") {
-        // Update the displayed profile immediately on success
-        setUserProfile((prev) => ({
-          ...prev,
-          bio: formInput.bio,
-          profilePicUrl: formInput.profilePicUrl,
-        }));
-        setUpdateSuccess(true);
-      } else {
-        // setUpdateError(response.message || "Failed to update profile.");
-        console.log(" ");
-      }
+   
     } catch (err) {
-      console.error("Error updating profile:", err);
+      console.error("Error Creating New post:", err);
       setUpdateError(
-        "An error occurred while updating the profile. Please try again."
+        "An error occurred while creating new post. Please try again."
       );
     } finally {
       setIsUpdating(false); // Always set updating to false
@@ -186,7 +162,7 @@ function Profile() {
           <textarea
             name="newPost"
             id="newPost"
-            value={formInput.bio} // Controlled component: value tied to state
+            value={formInput.newPost} // Controlled component: value tied to state
             onChange={handleChange} // Update state on change
             rows="2" // Add rows for better textarea appearance
             cols="50"
@@ -215,8 +191,14 @@ function Profile() {
         ))}
       </div>
       <h2>Your Followers Posts</h2>
+              {userProfile.posts.map((post) => (
+          <div key={post.id}>
+            <h3>Post ID: {post.id}</h3>
+            <h4>Post Name: {post.content}</h4>
+          </div>
+        ))}
     </div>
   );
 }
 
-export default Profile;
+export default SocialFeed;
