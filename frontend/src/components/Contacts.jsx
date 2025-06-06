@@ -1,37 +1,50 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import JWTStatus from "./JwtStatus";
-import { allContacts } from "../ApiQueries.js";
+import { allUsers, followRequest, decodeJWTPayload } from "../ApiQueries.js";
 
 function Contacts() {
-  const [allContactsState, setAllContactsState] = useState([]);
+  const [allUsersState, setAllUsersState] = useState([]);
+  const [loggedUser, setLoggedUser] = useState("carlobosco6");
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
-    const fetchContactsData = async () => {
+    const fetchUsersData = async () => {
       try {
+        const decodedJwt = decodeJWTPayload();
+        if (!decodedJwt || !decodedJwt.id) {
+          // setError("Could not decode user ID from JWT. Please log in.");
+          // setLoading(false);
+
+          return;
+        }
+
+        setLoggedUser(decodedJwt.userName);
+
+        console.log("DECODER", decodedJwt.userName);
+
         setLoading(true);
-        const loadedContactInfo = await allContacts();
+        const loadedUsersInfo = await allUsers();
 
         if (
-          loadedContactInfo &&
-          loadedContactInfo.response &&
-          Array.isArray(loadedContactInfo.response)
+          loadedUsersInfo &&
+          loadedUsersInfo.response &&
+          Array.isArray(loadedUsersInfo.response)
         ) {
-          setAllContactsState(loadedContactInfo.response);
-          if (loadedContactInfo.status) {
-            setStatusMessage(loadedContactInfo.status);
+          setAllUsersState(loadedUsersInfo.response);
+          if (loadedUsersInfo.status) {
+            setStatusMessage(loadedUsersInfo.status);
           }
-        } else if (Array.isArray(loadedContactInfo)) {
-          setAllContactsState(loadedContactInfo);
+        } else if (Array.isArray(loadedUsersInfo)) {
+          setAllUsersState(loadedUsersInfo);
           setStatusMessage("Contacts loaded");
         } else {
           console.error(
             "API response is not in the expected format:",
-            loadedContactInfo
+            loadedUsersInfo
           );
           setError("Failed to load contacts: Unexpected data format.");
         }
@@ -43,21 +56,21 @@ function Contacts() {
       }
     };
 
-    fetchContactsData();
+    fetchUsersData();
   }, []);
 
   if (loading) {
-    return <div>Loading Contacts...</div>;
+    return <div>Loading Users...</div>;
   }
 
   if (error) {
     return <div>Error: {error}</div>;
   }
 
-  const handleMessageClick = (contact) => {
-    navigate("/messaging-app/messages", {
-      state: { selectedContact: contact },
-    });
+  const handleFollowClick = async (user) => {
+    const responseFollowRequest = await followRequest(user, loggedUser);
+    console.log("responseFollowRequest", responseFollowRequest);
+    console.log("Logged user is:", loggedUser);
   };
 
   return (
@@ -67,27 +80,25 @@ function Contacts() {
       {!statusMessage && <h1>Contacts</h1>}
 
       <div>
-        {allContactsState.length > 0 ? (
+        {allUsersState.length > 0 ? (
           <ul>
-            {allContactsState.map((contact) => (
-              <li key={contact.id}>
+            {allUsersState.map((user) => (
+              <li key={user.id}>
                 <p className="p-format">
-                  <strong>ID : </strong> {contact.id}
+                  <strong>ID : </strong> {user.id}
                 </p>
                 <p className="p-format">
                   <strong>Name : </strong>
-                  {contact.name}
+                  {user.fullName}
                 </p>
 
                 <p className="p-format">
-                  <strong>Email:</strong> {contact.email}
+                  <strong>User Name:</strong> {user.userName}
                 </p>
                 <p className="p-format">
-                  <strong>Bio:</strong> {contact.bio}
+                  <strong>Bio:</strong> {user.bio}
                 </p>
-                <button onClick={() => handleMessageClick(contact)}>
-                  Message
-                </button>
+                <button onClick={() => handleFollowClick(user)}>Follow</button>
               </li>
             ))}
           </ul>

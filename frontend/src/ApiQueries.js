@@ -174,14 +174,17 @@ async function clearJwtLogOut() {
   return "loggedOut";
 }
 
-async function allContacts() {
+async function allUsers() {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
-    let response = await fetch(`${apiURL}/social-circle-app/v1/contacts/`, {
-      method: "GET",
-      headers: { ...storedJwt, "Content-Type": "application/json" },
-    });
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/users/all-users`,
+      {
+        method: "GET",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+      }
+    );
     if (!response.ok) {
       throw new Error(`HTTP Error! status:${response.status}`);
     }
@@ -194,24 +197,23 @@ async function allContacts() {
   }
 }
 
-async function sendMessage(senderID, receiverID, message) {
+async function followRequest(user, loggedUser) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
-
+    console.log("THis is APO query:", loggedUser);
     let response = await fetch(
-      `${apiURL}/social-circle-app/v1/contacts/${senderID}/message/${receiverID}`,
+      `${apiURL}/social-circle-api/v1/authorized/${loggedUser.userName}/all-users/${user.userName}/followstatus`,
       {
-        method: "POST",
+        method: "PUT",
         headers: { ...storedJwt, "Content-Type": "application/json" },
         body: JSON.stringify({
-          message: message,
-          contactIdSender: senderID,
-          contactIdReceiver: receiverID,
+          authenticatedUserName: loggedUser,
+          selectedUserName: user.userName,
         }),
       }
     );
     const ApiResponse = await response.json();
-    console.log(ApiResponse);
+    return ApiResponse;
   } catch (error) {
     console.error(error);
   }
@@ -226,6 +228,6 @@ export {
   decodeJWTPayload,
   loggedContactMessages,
   clearJwtLogOut,
-  allContacts,
-  sendMessage,
+  allUsers,
+  followRequest,
 };

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 
-import { sendMessage } from "../ApiQueries.js"; // Assuming this is your API call
+import { followRequest } from "../ApiQueries.js"; // Assuming this is your API call
 
 // Helper constant for grouping time threshold
 const MESSAGE_GROUP_TIME_THRESHOLD_MINUTES = 5;
@@ -90,7 +90,7 @@ function ConversationView({ userID, selectedContact, allMessages, onBack, onSend
     try {
       // Call the API function
       // Assuming sendMessage returns the new message object from the backend
-      const newMessageResponse = await sendMessage(
+      const newMessageResponse = await followRequest(
         userID,
         selectedContact.id, // <-- Correctly passing the ID
         currentMessageText

@@ -124,7 +124,7 @@ async function PrismaUpdateLoggedUserProfile(
   profilePicUrl
 ) {
   try {
-    console.log(authenticatedUserName)
+    console.log(authenticatedUserName);
     const updateProfile = await prismaQuery.user.update({
       where: { userName: authenticatedUserName },
       data: {

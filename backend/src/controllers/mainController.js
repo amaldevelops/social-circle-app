@@ -127,7 +127,8 @@ async function updateLoggedUserProfile(req, res, next) {
     const { authenticatedUserName, updatedBio, profilePicUrl } = req.body;
     const updateProfile = await PrismaUpdateLoggedUserProfile(
       authenticatedUserName,
-      updatedBio,profilePicUrl
+      updatedBio,
+      profilePicUrl
     );
     res.json({ response: updateProfile });
   } catch (error) {
@@ -162,8 +163,10 @@ async function getAllUsers(req, res, next) {
 // JSON Format expected: {"authenticatedUserName":"maverick", "selectedUserName":"jettrodriguez9"}
 async function followOrUnfollowUser(req, res, next) {
   try {
-    const authenticatedUserName = req.params.authenticatedUserName;
-    const selectedUserName = req.params.selectedUserName;
+    // const authenticatedUserName = req.params.authenticatedUserName;
+    // const selectedUserName = req.params.selectedUserName;
+
+    const { authenticatedUserName, selectedUserName } = req.body;
 
     const response = await PrismaFollowOrUnfollowUser(
       authenticatedUserName,
