@@ -9,6 +9,7 @@ import UserMessages from "./components/UserMessages";
 import Contacts from "./components/Contacts";
 import ContactList from "./components/ContactList";
 import ConversationView from "./components/ConversationView";
+import SocialFeed from "./components/SocialFeed"
 
 const routes = [
   {
@@ -46,7 +47,7 @@ const routes = [
       },
       {
         path: "/social-circle-app/socialfeed",
-        element: <UserMessages />,
+        element: <SocialFeed />,
         errorElement: <ErrorPage />,
       },
       {
