@@ -190,14 +190,21 @@ function SocialFeed() {
           {updateError && <p style={{ color: "red" }}>{updateError}</p>}
         </form>
       </div>
-      <h2>Recent Posts</h2>
-      {socialFeedLoad.response.data.map((post) => (
-        <div key={post.id}>
-          <h3>
-            {post.author.userName}: {post.content}
-          </h3>
-        </div>
-      ))}
+      <div>
+        <h2>Recent Posts</h2>
+        {socialFeedLoad.response.data.map((post) => (
+          <div key={post.id} className="posts">
+            <p>{post.createdAt}</p>
+
+            <h3>
+              {post.author.userName}: {post.content}
+            </h3>
+            <p>
+              Likes {post.likes.length} | Comments {post.comments.length}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

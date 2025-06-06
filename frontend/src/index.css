@@ -244,3 +244,8 @@ li::before {
 .p-format {
   margin-left: 0.7em;
 }
+
+.posts {
+  border: 1px solid black;
+  margin: 0.5rem;
+}
