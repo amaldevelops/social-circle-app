@@ -59,12 +59,12 @@ async function ApiRegister(formData) {
   }
 }
 
-async function loadProfile(authenticatedUserName, selectedUserName) {
+async function loadProfile(decodedJwt) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
 
     let response = await fetch(
-      `${apiURL}/social-circle-api/v1/authorized/${authenticatedUserName}/${selectedUserName}/profile/view`,
+      `${apiURL}/social-circle-api/v1/authorized/${decodedJwt.userName}/${decodedJwt.userName}/profile/view`,
       {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },

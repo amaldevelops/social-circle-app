@@ -6,8 +6,12 @@ function Profile() {
   // State for displaying the user's current profile
   const [userProfile, setUserProfile] = useState({
     id: null,
+    fullName: "",
     email: "",
     bio: "",
+    posts: [],
+    followers: [],
+    following: [],
   });
 
   // State for the form inputs for updating the profile
@@ -28,22 +32,29 @@ function Profile() {
         setLoading(true);
         setError(null); // Clear previous errors
 
-        const decodedID = decodeJWTPayload();
-        if (!decodedID || !decodedID.id) {
+        const decodedJwt = decodeJWTPayload();
+        if (!decodedJwt || !decodedJwt.id) {
           setError("Could not decode user ID from JWT. Please log in.");
           setLoading(false);
           return;
         }
 
         // Store the user ID for potential future use (e.g., in update calls)
-        setUserProfile((prev) => ({ ...prev, id: decodedID.id }));
+        setUserProfile((prev) => ({ ...prev, id: decodedJwt.id }));
 
-        const loadedProfileInfo = await loadProfile(decodedID.id);
+        const loadedProfileInfo = await loadProfile(decodedJwt);
+        console.log("Loadfdfdfsdf", loadedProfileInfo);
 
         // Ensure loadedProfileInfo.response contains email and bio
         if (loadedProfileInfo && loadedProfileInfo.response) {
           setUserProfile((prev) => ({
             ...prev, // Keep existing ID
+            userName: loadedProfileInfo.response.userName || "",
+            fullName: loadedProfileInfo.response.fullName || "",
+            posts: loadedProfileInfo.response.posts || [],
+            profilePicUrl: "",
+            followers: loadedProfileInfo.response.followers || [],
+            following: loadedProfileInfo.response.following || [],
             email: loadedProfileInfo.response.email || "",
             bio: loadedProfileInfo.response.bio || "",
           }));
@@ -100,7 +111,7 @@ function Profile() {
         setUpdateSuccess(true);
       } else {
         // setUpdateError(response.message || "Failed to update profile.");
-        console.log(" ")
+        console.log(" ");
       }
     } catch (err) {
       console.error("Error updating profile:", err);
@@ -125,9 +136,32 @@ function Profile() {
     <div>
       <JWTStatus />
       <h1>User Profile</h1>
+      <p>User Name: {userProfile.userName}</p>
+      <p>Full Name: {userProfile.fullName}</p>
       <p>E-Mail: {userProfile.email}</p>
       <p>Bio: {userProfile.bio || "No bio set."}</p>{" "}
-      {/* Display bio, with fallback */}
+      <div>
+        <h4>
+          Followers:{" "}
+          {userProfile.followers.map((followers) => (
+            <div key={followers.id}>
+              <p>{followers.userName}</p>
+            </div>
+          ))}
+        </h4>
+      </div>
+      <div>
+        <h4>
+          Following:{" "}
+          {userProfile.following.map((followingName) => (
+            <div key={followingName.id}>
+              <a href={followingName.following.userName}>
+                {followingName.following.userName},{" "}
+              </a>
+            </div>
+          ))}
+        </h4>
+      </div>
       <h2>Edit Profile</h2>
       <form onSubmit={handleSubmit}>
         {/* Contact ID is displayed, not editable directly here, as it's the logged-in user */}
@@ -156,6 +190,15 @@ function Profile() {
         )}
         {updateError && <p style={{ color: "red" }}>{updateError}</p>}
       </form>
+      <div>
+        <h2>Users Posts</h2>
+        {userProfile.posts.map((post) => (
+          <div key={post.id}>
+            <h3>Post ID: {post.id}</h3>
+            <h4>Post Name: {post.content}</h4>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

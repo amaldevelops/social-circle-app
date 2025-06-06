@@ -44,7 +44,7 @@ async function PrismaAuthenticateUser(email, password) {
       return {
         status: "Authentication Success!",
         id: authenticate.id,
-        userName:authenticate.userName,
+        userName: authenticate.userName,
         fullName: authenticate.fullName,
         email: authenticate.email,
         bio: authenticate.bio,
@@ -69,6 +69,7 @@ async function PrismaGetUserProfile(selectedUserName) {
         bio: true,
         profilePicUrl: true,
         fullName: true,
+        userName: true,
         posts: {
           select: {
             id: true,
