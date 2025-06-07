@@ -6,7 +6,7 @@ function ProjectInfo() {
       <h3>Core functionality</h3>
 
       <ul>
-        <li className="pendingEmptyCheckbox">
+        <li className="completedTick">
           Guest sign-in button that allows visitors to bypass the login screen
           without creating an account or supplying credentials.
         </li>
@@ -16,7 +16,7 @@ function ProjectInfo() {
           Posts should always display the post content, author, comments, and
           likes
         </li>
-        <li className="pendingEmptyCheckbox">
+        <li className="completedTick">
           There should be an index page for posts, which shows all the recent
           posts from the current user and users they are following
         </li>
