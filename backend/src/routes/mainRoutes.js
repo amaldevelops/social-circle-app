@@ -12,6 +12,7 @@ import {
   createNewPost,
   likePosts,
   commentOnPosts,
+  postByIDController,
 } from "../controllers/mainController.js";
 
 import { authenticateJWT } from "../middleware/Authenticator.js";
@@ -92,6 +93,14 @@ mainRouter.post(
   "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId/comment",
   authenticateJWT,
   commentOnPosts
+);
+
+// Authenticated End Point to get Post By Id
+//Requirement: Get Post and related information based on supplied postId
+mainRouter.get(
+  "/social-circle-api/v1/authorized/:authenticatedUserName/posts/:postId",
+  authenticateJWT,
+  postByIDController
 );
 
 export default mainRouter;

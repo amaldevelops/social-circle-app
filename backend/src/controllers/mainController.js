@@ -9,6 +9,7 @@ import {
   PrismaCommentOnPosts,
   PrismaLikePosts,
   PrismaCreateNewPost,
+  PrismaGetPostByID,
 } from "../prisma/PrismaQueries.js";
 
 import { createJWT, authenticateJWT } from "../middleware/Authenticator.js";
@@ -264,6 +265,28 @@ async function commentOnPosts(req, res, next) {
   }
 }
 
+//Requirement: There should be an index page for posts, which shows all the recent posts from the current user and users they are following.
+// GET Method
+// Require:authenticatedUserName,
+// Authentication Headers need to sent as a Bearer Token: { Authorization: `Bearer ${jwtToken}`}
+// Message is sent as body=>raw=>JSON,
+// JSON Format expected: N/a
+// URL Parameters:const authenticatedUserName = req.params.authenticatedUserName;const selectedUserName = req.params.selectedUserName;
+
+async function postByIDController(req, res, next) {
+  try {
+    const authenticatedUserName = req.params.authenticatedUserName;
+
+    const formData = { postId: parseInt(req.params.postId) };
+
+    const prismaResponse = await PrismaGetPostByID(formData);
+    res.json({ response: prismaResponse });
+  } catch (error) {
+    console.error(error);
+    res.json({ error: "Error Loading post by Id" });
+  }
+}
+
 export {
   apiStatus,
   login,
@@ -276,4 +299,5 @@ export {
   createNewPost,
   likePosts,
   commentOnPosts,
+  postByIDController,
 };

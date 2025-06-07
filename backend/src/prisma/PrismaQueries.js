@@ -481,6 +481,31 @@ async function PrismaCreateNewPost(authenticatedUserName, post) {
   }
 }
 
+async function PrismaGetPostByID(formData) {
+  try {
+    console.log("postId from PRISMA", formData);
+    const getPostByID = await prismaQuery.post.findUnique({
+      where: { id: formData.postId },
+      select: {
+        id: true,
+        authorId: true,
+        author: true,
+        content: true,
+        createdAt: true,
+        likes: true,
+        comments: true,
+      },
+    });
+
+    console.log("getPostByID", getPostByID);
+
+    return getPostByID;
+  } catch (error) {
+    console.error(error);
+    return "Post Fetch error !";
+  }
+}
+
 export {
   prismaGetAllUsers,
   PrismaFollowOrUnfollowUser,
@@ -492,4 +517,5 @@ export {
   PrismaCommentOnPosts,
   PrismaLikePosts,
   PrismaCreateNewPost,
+  PrismaGetPostByID,
 };
