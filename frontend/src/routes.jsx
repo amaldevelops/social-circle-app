@@ -10,6 +10,7 @@ import Contacts from "./components/Contacts";
 import ContactList from "./components/ContactList";
 import ConversationView from "./components/ConversationView";
 import SocialFeed from "./components/SocialFeed"
+import Post from "./components/Post";
 
 const routes = [
   {
@@ -58,6 +59,11 @@ const routes = [
       {
         path: "/social-circle-app/contactlist",
         element: <ContactList />,
+        errorElement: <ErrorPage />,
+      },
+            {
+        path: "/social-circle-app/post",
+        element: <Post />,
         errorElement: <ErrorPage />,
       },
     ],

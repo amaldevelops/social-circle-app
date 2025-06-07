@@ -175,11 +175,10 @@ async function socialFeedQuery(decodedJwt) {
 
     let response = await fetch(
       `${apiURL}/social-circle-api/v1/authorized/${decodedJwt.userName}/all-users/${decodedJwt.userName}/home-feed`,
-     {
+      {
         method: "GET",
         headers: { ...storedJwt, "Content-Type": "application/json" },
-      },
-      
+      }
     );
     if (!response.ok) {
       throw new Error(`HTTP Error! status:${response.status}`);
@@ -224,7 +223,6 @@ async function allUsers() {
 async function followRequest(user, loggedUser) {
   try {
     const storedJwt = await loadJwtTokenToHttpHeader();
-    console.log("THis is APO query:", loggedUser);
     let response = await fetch(
       `${apiURL}/social-circle-api/v1/authorized/${loggedUser.userName}/all-users/${user.userName}/followstatus`,
       {
@@ -233,6 +231,49 @@ async function followRequest(user, loggedUser) {
         body: JSON.stringify({
           authenticatedUserName: loggedUser,
           selectedUserName: user.userName,
+        }),
+      }
+    );
+    const ApiResponse = await response.json();
+    return ApiResponse;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function newCommentApiQuery(formData) {
+  try {
+    const storedJwt = await loadJwtTokenToHttpHeader();
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/${formData.userName}/posts/${formData.postID}/comment`,
+      {
+        method: "POST",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          authenticatedUserName: formData.userName,
+          postId: formData.postId,
+          commentContent: formData.commentContent,
+        }),
+      }
+    );
+    const ApiResponse = await response.json();
+    return ApiResponse;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function likeStatusApiQuery(formData) {
+  try {
+    const storedJwt = await loadJwtTokenToHttpHeader();
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/${formData.userName}/posts/${formData.postID}/like`,
+      {
+        method: "POST",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+        body: JSON.stringify({
+          authenticatedUserName: formData.userName,
+          postId: formData.postId,
         }),
       }
     );
@@ -255,4 +296,6 @@ export {
   allUsers,
   followRequest,
   newPost,
+  newCommentApiQuery,
+  likeStatusApiQuery,
 };
