@@ -12,10 +12,26 @@ function Post(postDetailsObject) {
     commentContent: "",
   });
 
+  const testFormData = {
+    authenticatedUserName: "carlobosco6",
+    postId: "1",
+    commentContent: "08052025 Awesome",
+  };
+
+  const submitNewComment = async () => {
+    try {
+      const apiQueryResult = await newCommentApiQuery(testFormData);
+      console.log(apiQueryResult);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // submitNewComment();
+
   useEffect(() => {
-    const submitNewComment = async () => {
+    const fetchPost = async () => {
       try {
-        const apiQueryResult = await newCommentApiQuery(formData);
       } catch (error) {
         console.error(error);
       }

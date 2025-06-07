@@ -243,6 +243,7 @@ async function followRequest(user, loggedUser) {
 
 async function newCommentApiQuery(formData) {
   try {
+    console.log("Received FORM DATA",formData)
     const storedJwt = await loadJwtTokenToHttpHeader();
     let response = await fetch(
       `${apiURL}/social-circle-api/v1/authorized/${formData.userName}/posts/${formData.postID}/comment`,
@@ -250,7 +251,7 @@ async function newCommentApiQuery(formData) {
         method: "POST",
         headers: { ...storedJwt, "Content-Type": "application/json" },
         body: JSON.stringify({
-          authenticatedUserName: formData.userName,
+          authenticatedUserName: formData.authenticatedUserName,
           postId: formData.postId,
           commentContent: formData.commentContent,
         }),
