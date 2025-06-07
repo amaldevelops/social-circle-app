@@ -243,7 +243,6 @@ async function followRequest(user, loggedUser) {
 
 async function newCommentApiQuery(formData) {
   try {
-    console.log("Received FORM DATA", formData);
     const storedJwt = await loadJwtTokenToHttpHeader();
     let response = await fetch(
       `${apiURL}/social-circle-api/v1/authorized/${formData.userName}/posts/${formData.postID}/comment`,
@@ -285,6 +284,29 @@ async function likeStatusApiQuery(formData) {
   }
 }
 
+async function loadPostByIdApiQuery(formData) {
+  try {
+    const storedJwt = await loadJwtTokenToHttpHeader();
+
+    let response = await fetch(
+      `${apiURL}/social-circle-api/v1/authorized/${formData.authenticatedUserName}/posts/${formData.postId}`,
+      {
+        method: "GET",
+        headers: { ...storedJwt, "Content-Type": "application/json" },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP Error! status:${response.status}`);
+    }
+
+    const queryResult = await response.json();
+    console.log(queryResult);
+    return queryResult;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 export {
   ApiLogin,
   ApiRegister,
@@ -299,4 +321,5 @@ export {
   newPost,
   newCommentApiQuery,
   likeStatusApiQuery,
+  loadPostByIdApiQuery,
 };

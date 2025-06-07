@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 
-import { newCommentApiQuery, likeStatusApiQuery } from "../ApiQueries";
+import {
+  newCommentApiQuery,
+  likeStatusApiQuery,
+  loadPostByIdApiQuery,
+} from "../ApiQueries";
 import JWTStatus from "./JwtStatus.jsx";
 
 //postDetailsObject={authenticatedUserName,postId}
@@ -14,7 +18,7 @@ function Post(postDetailsObject) {
 
   const testFormData = {
     authenticatedUserName: "carlobosco6",
-    postId: "1",
+    postId: "5",
     commentContent: "08052025 Awesome",
   };
 
@@ -32,10 +36,13 @@ function Post(postDetailsObject) {
   useEffect(() => {
     const fetchPost = async () => {
       try {
+        const loadPostFromApi = await loadPostByIdApiQuery(testFormData);
+        console.log("loadPostFromApi Output", loadPostFromApi);
       } catch (error) {
         console.error(error);
       }
     };
+    fetchPost();
   }, []);
 
   return (
