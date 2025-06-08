@@ -153,7 +153,7 @@ function Profile() {
         src={userProfile.profilePicUrl}
         alt="Profile Pic"
         width="50"
-        height="75"
+        height="55"
       ></img>
       <p>User Name: {userProfile.userName}</p>
       <p>Full Name: {userProfile.fullName}</p>

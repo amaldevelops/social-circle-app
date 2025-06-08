@@ -112,7 +112,7 @@ button:focus-visible {
 /* --- Menu Bar --- */
 .menuBar {
   display: flex;
-  gap: 20px;
+  gap: 2rem;
   justify-content: center;
   align-items: center;
   position: fixed;
@@ -198,7 +198,7 @@ li::before {
   justify-content: flex-start;
   gap: 10px;
   border: 1px solid black;
-  max-width: 800px; /* Prevent it from getting too wide on large screens */
+  max-width: 1024px; /* Prevent it from getting too wide on large screens */
   width: 90%; /* Take 90% of parent width */
   box-sizing: border-box; /* Include padding/border in its total width */
   margin-top: 20px; /* Add some space below the menuBar */

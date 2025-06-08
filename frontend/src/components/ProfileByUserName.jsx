@@ -58,7 +58,7 @@ function ProfileByUserName() {
             following: loadedProfileInfo.response.following || [],
             email: loadedProfileInfo.response.email || "",
             bio: loadedProfileInfo.response.bio || "",
-            profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
+            profilePicUrl: loadedProfileInfo.response.profilePicUrl || null,
           }));
         } else {
           setError("Failed to load profile: Unexpected data format.");
