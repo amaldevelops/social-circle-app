@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate, Link } from "react-router-dom"; // Import useNavigate
 import JWTStatus from "./JwtStatus";
 import { allUsers, followRequest, decodeJWTPayload } from "../ApiQueries.js";
 
@@ -98,6 +98,12 @@ function Contacts() {
                 <p className="p-format">
                   <strong>Bio:</strong> {user.bio}
                 </p>
+                <p>
+                  <Link to={`/social-circle-app/contacts/${user.userName}`}>
+                    View User Profile
+                  </Link>
+                </p>
+
                 <button onClick={() => handleFollowClick(user)}>Follow</button>
               </li>
             ))}

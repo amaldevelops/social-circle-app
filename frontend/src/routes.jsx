@@ -9,7 +9,7 @@ import Register from "./components/Register";
 import Contacts from "./components/Contacts";
 import ContactList from "./components/DELETEContactList";
 import ConversationView from "./components/DELETEConversationView";
-import SocialFeed from "./components/SocialFeed"
+import SocialFeed from "./components/SocialFeed";
 import Post from "./components/Post";
 
 const routes = [
@@ -46,9 +46,9 @@ const routes = [
         element: <Contacts />,
         errorElement: <ErrorPage />,
       },
-            {
+      {
         path: "/social-circle-app/contacts/:userName",
-        element: <Contacts />,
+        element: <Profile />,
         errorElement: <ErrorPage />,
       },
       {
@@ -61,12 +61,13 @@ const routes = [
         element: <ConversationView />,
         errorElement: <ErrorPage />,
       },
+      // {
+      //   path: "/social-circle-app/contactlist",
+      //   element: <ContactList />,
+      //   errorElement: <ErrorPage />,
+      // },
+  
       {
-        path: "/social-circle-app/contactlist",
-        element: <ContactList />,
-        errorElement: <ErrorPage />,
-      },
-            {
         path: "/social-circle-app/:userName/post/:postId",
         element: <Post />,
         errorElement: <ErrorPage />,

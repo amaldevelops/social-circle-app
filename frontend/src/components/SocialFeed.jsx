@@ -206,7 +206,7 @@ function SocialFeed() {
               to={`/social-circle-app/${userProfile.userName}/post/${post.id}`}
             >
               View Post Details
-            </Link>{" "}
+            </Link>
           </div>
         ))}
       </div>

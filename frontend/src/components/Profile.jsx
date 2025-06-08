@@ -222,9 +222,11 @@ function Profile() {
           <div key={post.id}>
             <h3>Post ID: {post.id}</h3>
             <h4>Post Name: {post.content}</h4>
-            <Link to={`/social-circle-app/post/${post.id}`}>
+            <Link
+              to={`/social-circle-app/${userProfile.userName}/post/${post.id}`}
+            >
               View Post Details
-            </Link>{" "}
+            </Link>
           </div>
         ))}
       </div>
