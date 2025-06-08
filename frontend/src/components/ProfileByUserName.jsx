@@ -6,6 +6,9 @@ import JWTStatus from "./JwtStatus.jsx";
 
 function ProfileByUserName() {
   const { userName } = useParams();
+  const userObject = {
+    userName: userName,
+  };
 
   console.log("UserName ISSSSS", userName);
 
@@ -40,7 +43,7 @@ function ProfileByUserName() {
         // Store the user ID for potential future use (e.g., in update calls)
         setUserProfile((prev) => ({ ...prev, id: decodedJwt.id }));
 
-        const loadedProfileInfo = await loadProfile(decodedJwt);
+        const loadedProfileInfo = await loadProfile(userObject);
 
         console.log("Loadfdfdfsdf", loadedProfileInfo);
 
