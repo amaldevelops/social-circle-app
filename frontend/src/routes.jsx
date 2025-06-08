@@ -5,7 +5,6 @@ import Profile from "./components/Profile";
 import ErrorPage from "./ErrorPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
-// import UserMessages from "./components/UserMessages";
 import Contacts from "./components/Contacts";
 import ContactList from "./components/DELETEContactList";
 import ConversationView from "./components/DELETEConversationView";
@@ -62,12 +61,6 @@ const routes = [
         element: <ConversationView />,
         errorElement: <ErrorPage />,
       },
-      // {
-      //   path: "/social-circle-app/contactlist",
-      //   element: <ContactList />,
-      //   errorElement: <ErrorPage />,
-      // },
-  
       {
         path: "/social-circle-app/:userName/post/:postId",
         element: <Post />,

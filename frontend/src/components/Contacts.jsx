@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom"; // Import useNavigate
+import { Link } from "react-router-dom";
 import JWTStatus from "./JwtStatus";
 import { allUsers, followRequest, decodeJWTPayload } from "../ApiQueries.js";
 
@@ -14,16 +14,12 @@ function Contacts() {
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const fetchUsersData = async () => {
       try {
         const decodedJwt = decodeJWTPayload();
         if (!decodedJwt || !decodedJwt.id) {
-          // setError("Could not decode user ID from JWT. Please log in.");
-          // setLoading(false);
-
           return;
         }
 

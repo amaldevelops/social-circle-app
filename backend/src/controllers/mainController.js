@@ -14,7 +14,6 @@ import {
 
 import { createJWT, authenticateJWT } from "../middleware/Authenticator.js";
 
-//TO BE MODIFIED
 async function apiStatus(req, res, next) {
   try {
     res.json({

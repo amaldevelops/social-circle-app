@@ -10,7 +10,7 @@ import "./App.css";
 
 function App() {
   const formData = {
-    email: "demoaccount@amalk.au",
+    email: "demoaccount@demo.com",
     password: "Demo2025",
     //https://avatars.githubusercontent.com/u/65403645
   };

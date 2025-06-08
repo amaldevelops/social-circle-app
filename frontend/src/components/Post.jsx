@@ -21,12 +21,6 @@ function Post(postDetailsObject) {
 
   const [fetchedPost, setFetchedPost] = useState(null);
 
-  // const testFormData = {
-  //   authenticatedUserName: "bobbiebarton",
-  //   postId: "3",
-  //   commentContent: "Awesome Comment",
-  // };
-
   const likeUnlike = async (event) => {
     event.preventDefault();
 
@@ -40,7 +34,7 @@ function Post(postDetailsObject) {
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
+    event.preventDefault();
 
     try {
       const apiQueryResult = await newCommentApiQuery(formData);
@@ -75,8 +69,6 @@ function Post(postDetailsObject) {
     };
     fetchPost();
   }, []); // Empty dependency array means this runs once on mount
-
-  //   console.log("fetchedPost", fetchedPost);
 
   return (
     <div>

@@ -495,12 +495,12 @@ async function PrismaGetPostByID(formData) {
             userName: true,
             fullName: true,
             profilePicUrl: true, // Include useful author info
-          }},
+          },
+        },
         content: true,
         createdAt: true,
         likes: true,
         comments: true,
-        
       },
     });
 
