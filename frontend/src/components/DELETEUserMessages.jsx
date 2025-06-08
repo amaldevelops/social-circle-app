@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom"; // Import useLocati
 import JWTStatus from "./JwtStatus";
 import { socialFeedQuery, decodeJWTPayload } from "../ApiQueries.js";
 
-import ContactList from "./ContactList";
-import ConversationView from "./ConversationView";
+import ContactList from "./DELETEContactList.jsx";
+import ConversationView from "./DELETEConversationView.jsx";
 
 function UserMessages() {
   const location = useLocation(); // Initialize useLocation

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import { loadProfile, decodeJWTPayload, editProfile } from "../ApiQueries.js";
 import JWTStatus from "./JwtStatus";
 
@@ -220,6 +222,9 @@ function Profile() {
           <div key={post.id}>
             <h3>Post ID: {post.id}</h3>
             <h4>Post Name: {post.content}</h4>
+            <Link to={`/social-circle-app/post/${post.id}`}>
+              View Post Details
+            </Link>{" "}
           </div>
         ))}
       </div>

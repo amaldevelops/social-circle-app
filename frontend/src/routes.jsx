@@ -5,10 +5,10 @@ import Profile from "./components/Profile";
 import ErrorPage from "./ErrorPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import UserMessages from "./components/UserMessages";
+// import UserMessages from "./components/UserMessages";
 import Contacts from "./components/Contacts";
-import ContactList from "./components/ContactList";
-import ConversationView from "./components/ConversationView";
+import ContactList from "./components/DELETEContactList";
+import ConversationView from "./components/DELETEConversationView";
 import SocialFeed from "./components/SocialFeed"
 import Post from "./components/Post";
 
@@ -43,6 +43,11 @@ const routes = [
       },
       {
         path: "/social-circle-app/contacts",
+        element: <Contacts />,
+        errorElement: <ErrorPage />,
+      },
+            {
+        path: "/social-circle-app/contacts/:userName",
         element: <Contacts />,
         errorElement: <ErrorPage />,
       },
