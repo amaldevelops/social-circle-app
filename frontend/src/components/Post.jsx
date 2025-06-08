@@ -21,6 +21,21 @@ function Post(postDetailsObject) {
     commentContent: "Awesome Comment",
   };
 
+  const likeUnlike=async(event)=>{
+    event.preventDefault();
+
+    try{
+
+        const sendLikeStatusToApi=await likeStatusApiQuery(formData);
+        console.log("sendLikeStatusToApi",sendLikeStatusToApi)
+    }
+
+    catch(error)
+    {
+        console.error(error);
+    }
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
 
@@ -98,6 +113,11 @@ function Post(postDetailsObject) {
               Likes: {fetchedPost.likes?.length || 0} | Comments:{" "}
               {fetchedPost.comments?.length || 0}
             </p>
+            <div>
+                <form onSubmit={likeUnlike}>
+                    <button>Like / Unlike</button>
+                </form>
+            </div>
 
             {/* Display Comments Section (if there are comments) */}
             {fetchedPost.comments && fetchedPost.comments.length > 0 && (

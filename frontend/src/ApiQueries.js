@@ -265,14 +265,15 @@ async function newCommentApiQuery(formData) {
 
 async function likeStatusApiQuery(formData) {
   try {
+    console.log("This is formData from Likesatus query", formData);
     const storedJwt = await loadJwtTokenToHttpHeader();
     let response = await fetch(
-      `${apiURL}/social-circle-api/v1/authorized/${formData.userName}/posts/${formData.postID}/like`,
+      `${apiURL}/social-circle-api/v1/authorized/${formData.authenticatedUserName}/posts/${formData.postId}/like`,
       {
-        method: "POST",
+        method: "PUT",
         headers: { ...storedJwt, "Content-Type": "application/json" },
         body: JSON.stringify({
-          authenticatedUserName: formData.userName,
+          authenticatedUserName: formData.authenticatedUserName,
           postId: formData.postId,
         }),
       }
