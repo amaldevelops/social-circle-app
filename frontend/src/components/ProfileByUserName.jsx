@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate,useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { loadProfile, decodeJWTPayload, editProfile } from "../ApiQueries.js";
-import JWTStatus from "./JwtStatus";
+import JWTStatus from "./JwtStatus.jsx";
 
-function Profile() {
+function ProfileByUserName() {
+  const { userName } = useParams();
 
-const { userName } = useParams();
+  console.log("UserName ISSSSS", userName);
 
   // State for displaying the user's current profile
   const [userProfile, setUserProfile] = useState({
@@ -19,17 +20,8 @@ const { userName } = useParams();
     following: [],
   });
 
-  // State for the form inputs for updating the profile
-  const [formInput, setFormInput] = useState({
-    bio: "", // Initialized with empty string
-    profilePicUrl: "",
-  });
-
   const [loading, setLoading] = useState(true); // Loading state for initial fetch
   const [error, setError] = useState(null); // Error state for initial fetch
-  const [isUpdating, setIsUpdating] = useState(false); // Loading state for update operation
-  const [updateError, setUpdateError] = useState(null); // Error state for update operation
-  const [updateSuccess, setUpdateSuccess] = useState(false); // Success message for update
 
   // Effect to load the user's profile on component mount
   useEffect(() => {
@@ -49,6 +41,7 @@ const { userName } = useParams();
         setUserProfile((prev) => ({ ...prev, id: decodedJwt.id }));
 
         const loadedProfileInfo = await loadProfile(decodedJwt);
+
         console.log("Loadfdfdfsdf", loadedProfileInfo);
 
         // Ensure loadedProfileInfo.response contains email and bio
@@ -64,11 +57,6 @@ const { userName } = useParams();
             bio: loadedProfileInfo.response.bio || "",
             profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
           }));
-          // Set initial form input value to current bio
-          setFormInput({
-            bio: loadedProfileInfo.response.bio || "",
-            profilePicUrl: loadedProfileInfo.response.profilePicUrl || "",
-          });
         } else {
           setError("Failed to load profile: Unexpected data format.");
         }
@@ -83,60 +71,6 @@ const { userName } = useParams();
     fetchProfile();
   }, []); // Runs once on mount
 
-  // Handle changes in the form inputs
-  const handleChange = (e) => {
-    setFormInput({
-      ...formInput,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  // Handle form submission for editing the profile
-  const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission
-
-    setIsUpdating(true); // Set updating state to true
-    setUpdateError(null); // Clear previous update errors
-    setUpdateSuccess(false); // Reset success message
-
-    if (!userProfile.id) {
-      setUpdateError("User ID not available for profile update.");
-      setIsUpdating(false);
-      return;
-    }
-
-    try {
-      // Call editProfile with the necessary data
-      // Assuming editProfile expects contactID (which is userProfile.id) and the updatedBio
-      const formData = {
-        authenticatedUserName: userProfile.userName,
-        updatedBio: formInput.bio,
-        profilePicUrl: formInput.profilePicUrl,
-      };
-      const response = await editProfile(formData);
-
-      if (response && response.status === "User Profile Updated") {
-        // Update the displayed profile immediately on success
-        setUserProfile((prev) => ({
-          ...prev,
-          bio: formInput.bio,
-          profilePicUrl: formInput.profilePicUrl,
-        }));
-        setUpdateSuccess(true);
-      } else {
-        // setUpdateError(response.message || "Failed to update profile.");
-        console.log(" ");
-      }
-    } catch (err) {
-      console.error("Error updating profile:", err);
-      setUpdateError(
-        "An error occurred while updating the profile. Please try again."
-      );
-    } finally {
-      setIsUpdating(false); // Always set updating to false
-    }
-  };
-
   // Display loading, error, or profile data
   if (loading) {
     return <div>Loading profile...</div>;
@@ -149,7 +83,7 @@ const { userName } = useParams();
   return (
     <div>
       <JWTStatus />
-      <h1>User Profile</h1>
+      <h1>SELECTED User Profile</h1>
       <img
         src={userProfile.profilePicUrl}
         alt="Profile Pic"
@@ -182,43 +116,6 @@ const { userName } = useParams();
           ))}
         </h4>
       </div>
-      <h2>Edit Profile</h2>
-      <form onSubmit={handleSubmit}>
-        {/* Contact ID is displayed, not editable directly here, as it's the logged-in user */}
-        <p>
-          <strong>Your ID:</strong> {userProfile.id}
-        </p>
-
-        <label htmlFor="bio">Bio</label>
-        <br />
-        <textarea
-          name="bio"
-          id="bio"
-          value={formInput.bio} // Controlled component: value tied to state
-          onChange={handleChange} // Update state on change
-          rows="5" // Add rows for better textarea appearance
-          cols="30"
-        ></textarea>
-        <br />
-        <label htmlFor="profilePicUrl">Profile Pic</label>
-        <br />
-        <input
-          name="profilePicUrl"
-          id="profilePicUrl"
-          value={formInput.profilePicUrl}
-          onChange={handleChange}
-        ></input>
-        <br />
-
-        <button type="submit" disabled={isUpdating}>
-          {isUpdating ? "Updating..." : "Edit Profile"}
-        </button>
-
-        {updateSuccess && (
-          <p style={{ color: "green" }}>Profile updated successfully!</p>
-        )}
-        {updateError && <p style={{ color: "red" }}>{updateError}</p>}
-      </form>
       <div>
         <h2>Users Posts</h2>
         {userProfile.posts.map((post) => (
@@ -237,4 +134,4 @@ const { userName } = useParams();
   );
 }
 
-export default Profile;
+export default ProfileByUserName;

@@ -11,6 +11,7 @@ import ContactList from "./components/DELETEContactList";
 import ConversationView from "./components/DELETEConversationView";
 import SocialFeed from "./components/SocialFeed";
 import Post from "./components/Post";
+import ProfileByUserName from "./components/ProfileByUserName"
 
 const routes = [
   {
@@ -48,7 +49,7 @@ const routes = [
       },
       {
         path: "/social-circle-app/contacts/:userName",
-        element: <Profile />,
+        element: <ProfileByUserName />,
         errorElement: <ErrorPage />,
       },
       {
