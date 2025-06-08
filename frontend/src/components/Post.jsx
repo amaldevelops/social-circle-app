@@ -9,9 +9,7 @@ import {
 import JWTStatus from "./JwtStatus.jsx";
 
 function Post(postDetailsObject) {
-
-const { postId, userName } = useParams();
-
+  const { postId, userName } = useParams();
 
   const [formData, SetFormData] = useState({
     authenticatedUserName: userName,
@@ -19,28 +17,27 @@ const { postId, userName } = useParams();
     commentContent: "",
   });
 
+  const [likeStatusDisplay, SetlikeStatusDisplay] = useState("");
+
   const [fetchedPost, setFetchedPost] = useState(null);
 
-  const testFormData = {
-    authenticatedUserName: "bobbiebarton",
-    postId: "3",
-    commentContent: "Awesome Comment",
-  };
+  // const testFormData = {
+  //   authenticatedUserName: "bobbiebarton",
+  //   postId: "3",
+  //   commentContent: "Awesome Comment",
+  // };
 
-  const likeUnlike=async(event)=>{
+  const likeUnlike = async (event) => {
     event.preventDefault();
 
-    try{
-
-        const sendLikeStatusToApi=await likeStatusApiQuery(formData);
-        console.log("sendLikeStatusToApi",sendLikeStatusToApi)
+    try {
+      const sendLikeStatusToApi = await likeStatusApiQuery(formData);
+      console.log("sendLikeStatusToApi", sendLikeStatusToApi);
+      SetlikeStatusDisplay(sendLikeStatusToApi.response.message);
+    } catch (error) {
+      console.error(error);
     }
-
-    catch(error)
-    {
-        console.error(error);
-    }
-  }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // Prevent default form submission
@@ -120,9 +117,10 @@ const { postId, userName } = useParams();
               {fetchedPost.comments?.length || 0}
             </p>
             <div>
-                <form onSubmit={likeUnlike}>
-                    <button>Like / Unlike</button>
-                </form>
+              <h2>{likeStatusDisplay}</h2>
+              <form onSubmit={likeUnlike}>
+                <button>Like / Unlike</button>
+              </form>
             </div>
 
             {/* Display Comments Section (if there are comments) */}
