@@ -10,11 +10,11 @@ import JWTStatus from "./JwtStatus.jsx";
 
 function Post(postDetailsObject) {
 
-const { postId } = useParams();
+const { postId, userName } = useParams();
 
 
   const [formData, SetFormData] = useState({
-    authenticatedUserName: "bobbiebarton",
+    authenticatedUserName: userName,
     postId: postId,
     commentContent: "",
   });

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 import {
   loadProfile,
   decodeJWTPayload,
@@ -202,7 +202,9 @@ function SocialFeed() {
             <p>
               Likes {post.likes.length} | Comments {post.comments.length}
             </p>
-            <Link to={`/social-circle-app/post/${post.id}`}>
+            <Link
+              to={`/social-circle-app/${userProfile.userName}/post/${post.id}`}
+            >
               View Post Details
             </Link>{" "}
           </div>
