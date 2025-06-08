@@ -143,10 +143,14 @@ function SocialFeed() {
       <p>Bio: {userProfile.bio || "No bio set."}</p>{" "}
       <div>
         <h4>
-          Followers:{" "}
+          Followers: <p>{userProfile.userName}</p>
           {userProfile.followers.map((followers) => (
             <div key={followers.id}>
-              <p>{followers.userName}</p>
+              <Link
+                to={`/social-circle-app/contacts/${followers.follower.userName}`}
+              >
+                {followers.follower.userName}
+              </Link>
             </div>
           ))}
         </h4>
@@ -156,9 +160,11 @@ function SocialFeed() {
           Following:{" "}
           {userProfile.following.map((followingName) => (
             <div key={followingName.id}>
-              <a href={followingName.following.userName}>
-                {followingName.following.userName},{" "}
-              </a>
+              <Link
+                to={`/social-circle-app/contacts/${followingName.following.userName}`}
+              >
+                {followingName.following.userName}
+              </Link>
             </div>
           ))}
         </h4>

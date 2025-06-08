@@ -102,7 +102,11 @@ function ProfileByUserName() {
           Followers:{" "}
           {userProfile.followers.map((followers) => (
             <div key={followers.id}>
-              <p>{followers.userName}</p>
+              <Link
+                to={`/social-circle-app/contacts/${followers.follower.userName}`}
+              >
+                {followers.follower.userName}
+              </Link>
             </div>
           ))}
         </h4>
