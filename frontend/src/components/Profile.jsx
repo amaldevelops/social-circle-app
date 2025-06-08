@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate,useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { loadProfile, decodeJWTPayload, editProfile } from "../ApiQueries.js";
 import JWTStatus from "./JwtStatus";
 
 function Profile() {
-
-const { userName } = useParams();
+  const { userName } = useParams();
 
   // State for displaying the user's current profile
   const [userProfile, setUserProfile] = useState({
@@ -175,9 +174,11 @@ const { userName } = useParams();
           Following:{" "}
           {userProfile.following.map((followingName) => (
             <div key={followingName.id}>
-              <a href={followingName.following.userName}>
-                {followingName.following.userName},{" "}
-              </a>
+              <Link
+                to={`/social-circle-app/contacts/${followingName.following.userName}`}
+              >
+                {followingName.following.userName}
+              </Link>
             </div>
           ))}
         </h4>

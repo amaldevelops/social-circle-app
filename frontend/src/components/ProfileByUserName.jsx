@@ -86,7 +86,7 @@ function ProfileByUserName() {
   return (
     <div>
       <JWTStatus />
-      <h1>SELECTED User Profile</h1>
+      <h1>{userProfile.userName}'s User Profile</h1>
       <img
         src={userProfile.profilePicUrl}
         alt="Profile Pic"
@@ -112,9 +112,11 @@ function ProfileByUserName() {
           Following:{" "}
           {userProfile.following.map((followingName) => (
             <div key={followingName.id}>
-              <a href={followingName.following.userName}>
-                {followingName.following.userName},{" "}
-              </a>
+              <Link
+                to={`/social-circle-app/contacts/${followingName.following.userName}`}
+              >
+                {followingName.following.userName}
+              </Link>
             </div>
           ))}
         </h4>
