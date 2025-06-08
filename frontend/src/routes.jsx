@@ -6,11 +6,9 @@ import ErrorPage from "./ErrorPage";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Contacts from "./components/Contacts";
-import ContactList from "./components/DELETEContactList";
-import ConversationView from "./components/DELETEConversationView";
 import SocialFeed from "./components/SocialFeed";
 import Post from "./components/Post";
-import ProfileByUserName from "./components/ProfileByUserName"
+import ProfileByUserName from "./components/ProfileByUserName";
 
 const routes = [
   {
