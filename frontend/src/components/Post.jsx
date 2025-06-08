@@ -16,10 +16,34 @@ function Post(postDetailsObject) {
     commentContent: "",
   });
 
+  const [fetchedPost, setFetchedPost] = useState({
+    id: "",
+    authorId: "",
+    author: {
+      id: "",
+      userName: "",
+      fullName: "",
+      email: "",
+      profilePicUrl: "",
+      bio: "",
+    },
+    content: "",
+    createdAt: "",
+    likes: [
+      {
+        id: "",
+        userId: "",
+        postId: "",
+        createdAt: "",
+      },
+    ],
+    comments: [],
+  });
+
   const testFormData = {
-    authenticatedUserName: "carlobosco6",
-    postId: "5",
-    commentContent: "08052025 Awesome",
+    authenticatedUserName: "bobbiebarton",
+    postId: "3",
+    commentContent: "Awesome Comment",
   };
 
   const submitNewComment = async () => {
@@ -45,6 +69,7 @@ function Post(postDetailsObject) {
     fetchPost();
   }, []);
 
+  console.log(fetchedPost);
   return (
     <div>
       <h1>Individual Post View</h1>

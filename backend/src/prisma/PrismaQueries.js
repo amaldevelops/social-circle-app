@@ -489,11 +489,18 @@ async function PrismaGetPostByID(formData) {
       select: {
         id: true,
         authorId: true,
-        author: true,
+        author: {
+          select: {
+            id: true,
+            userName: true,
+            fullName: true,
+            profilePicUrl: true, // Include useful author info
+          }},
         content: true,
         createdAt: true,
         likes: true,
         comments: true,
+        
       },
     });
 
