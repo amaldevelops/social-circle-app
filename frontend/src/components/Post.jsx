@@ -8,8 +8,8 @@ import JWTStatus from "./JwtStatus.jsx";
 
 function Post(postDetailsObject) {
   const [formData, SetFormData] = useState({
-    authenticatedUserName: "",
-    postId: "",
+    authenticatedUserName: "bobbiebarton",
+    postId: "1",
     commentContent: "",
   });
 
@@ -21,19 +21,27 @@ function Post(postDetailsObject) {
     commentContent: "Awesome Comment",
   };
 
-  const submitNewComment = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
     try {
-      const apiQueryResult = await newCommentApiQuery(testFormData);
-      console.log("Post API Result:", apiQueryResult);
-    } catch (error) {
-      console.error(error);
+      const apiQueryResult = await newCommentApiQuery(formData);
+    } catch (err) {
+      console.error("Error creating new comment", err);
     }
+  };
+
+  const handleChange = (e) => {
+    SetFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
   };
 
   useEffect(() => {
     const fetchPost = async () => {
       try {
-        const loadPostFromApi = await loadPostByIdApiQuery(testFormData);
+        const loadPostFromApi = await loadPostByIdApiQuery(formData);
         console.log("loadPostFromApi Output", loadPostFromApi);
 
         if (loadPostFromApi && loadPostFromApi.response) {
@@ -50,7 +58,7 @@ function Post(postDetailsObject) {
     fetchPost();
   }, []); // Empty dependency array means this runs once on mount
 
-  console.log("fetchedPost", fetchedPost);
+  //   console.log("fetchedPost", fetchedPost);
 
   return (
     <div>
@@ -76,8 +84,8 @@ function Post(postDetailsObject) {
             )}
             {/* Display Author Name and Username */}
             <p>
-              <strong>{fetchedPost.author?.fullName || "Unknown User"}</strong>{" "}
-              (@{fetchedPost.author?.userName || "unknown"})
+              <strong>{fetchedPost.author.fullName || "Unknown User"}</strong>{" "}
+              (@{fetchedPost.author.userName || "unknown"})
             </p>
             {/* Display Post Content */}
             <p className="post-content">{fetchedPost.content}</p>
@@ -99,7 +107,9 @@ function Post(postDetailsObject) {
                   {/* Map over the comments array within the post object */}
                   {fetchedPost.comments.map((comment) => (
                     <li key={comment.id} className="comment-item">
-                      <strong>{comment.user?.userName || "Unknown"}:</strong>{" "}
+                      <strong>
+                        User ID : {comment.userId || "Unknown"} :{" "}
+                      </strong>{" "}
                       {comment.content}
                       <br />
                       <small>
@@ -109,6 +119,9 @@ function Post(postDetailsObject) {
                     </li>
                   ))}
                 </ul>
+                <div>
+                  <h2>New Comment</h2>
+                </div>
               </div>
             )}
           </div>
@@ -117,6 +130,24 @@ function Post(postDetailsObject) {
           <p>Loading post data or no post found for this ID.</p>
         )}
       </div>
+      <form onSubmit={handleSubmit}>
+        <p>
+          <strong>Your ID:</strong> {formData.authenticatedUserName}
+        </p>
+
+        <label htmlFor="commentContent">New Comment</label>
+        <br />
+        <textarea
+          name="commentContent"
+          id="commentContent"
+          value={formData.commentContent} // Controlled component: value tied to state
+          onChange={handleChange} // Update state on change
+          rows="5" // Add rows for better textarea appearance
+          cols="30"
+        ></textarea>
+        <br />
+        <button type="submit">Submit</button>
+      </form>
     </div>
   );
 }
