@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom"; // ADDED Link and useNavigate
+
 import {
   loadProfile,
   decodeJWTPayload,
@@ -195,13 +197,15 @@ function SocialFeed() {
         {socialFeedLoad.response.data.map((post) => (
           <div key={post.id} className="posts">
             <p>{post.createdAt}</p>
-
             <h3>
               {post.author.userName}: {post.content}
             </h3>
             <p>
               Likes {post.likes.length} | Comments {post.comments.length}
             </p>
+            <Link to={`/social-circle-app/post/${post.id}`}>
+              View Post Details
+            </Link>{" "}
           </div>
         ))}
       </div>

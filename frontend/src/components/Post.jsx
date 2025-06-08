@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"; // ADDED useParams
+
 import {
   newCommentApiQuery,
   likeStatusApiQuery,
@@ -7,9 +9,13 @@ import {
 import JWTStatus from "./JwtStatus.jsx";
 
 function Post(postDetailsObject) {
+
+const { postId } = useParams();
+
+
   const [formData, SetFormData] = useState({
     authenticatedUserName: "bobbiebarton",
-    postId: "1",
+    postId: postId,
     commentContent: "",
   });
 

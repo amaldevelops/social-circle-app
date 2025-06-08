@@ -62,7 +62,7 @@ const routes = [
         errorElement: <ErrorPage />,
       },
             {
-        path: "/social-circle-app/post",
+        path: "/social-circle-app/post/:postId",
         element: <Post />,
         errorElement: <ErrorPage />,
       },
