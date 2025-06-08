@@ -10,9 +10,9 @@ function ProjectInfo() {
           Guest sign-in button that allows visitors to bypass the login screen
           without creating an account or supplying credentials.
         </li>
-        <li className="pendingEmptyCheckbox">Users can like posts</li>
-        <li className="pendingEmptyCheckbox">Users can comment on posts</li>
-        <li className="pendingEmptyCheckbox">
+        <li className="completedTick">Users can like posts</li>
+        <li className="completedTick">Users can comment on posts</li>
+        <li className="completedTick">
           Posts should always display the post content, author, comments, and
           likes
         </li>
@@ -60,7 +60,7 @@ function ProjectInfo() {
       <h4>Front End : User interface Design</h4>
 
       <ul>
-        <li className="pendingEmptyCheckbox">
+        <li className="completedTick">
           Logged in users screen: Users Followers list which when clicked will
           take to other users screen and a button to follow them
         </li>
