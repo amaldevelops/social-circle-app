@@ -5,6 +5,11 @@ import { allUsers, followRequest, decodeJWTPayload } from "../ApiQueries.js";
 
 function Contacts() {
   const [allUsersState, setAllUsersState] = useState([]);
+  const [followStatus, setFollowStatus] = useState({
+    message: "",
+    status: "",
+    success: "",
+  });
   const [loggedUser, setLoggedUser] = useState("carlobosco6");
   const [statusMessage, setStatusMessage] = useState("");
   const [loading, setLoading] = useState(true);
@@ -70,12 +75,13 @@ function Contacts() {
   const handleFollowClick = async (user) => {
     const responseFollowRequest = await followRequest(user, loggedUser);
     console.log("responseFollowRequest", responseFollowRequest);
-    console.log("Logged user is:", loggedUser);
+    setFollowStatus(responseFollowRequest.response);
   };
 
   return (
     <div>
       <JWTStatus />
+      <h2>{followStatus.message}</h2>
       {statusMessage && <h1>{statusMessage}</h1>}
       {!statusMessage && <h1>Contacts</h1>}
 
@@ -98,13 +104,16 @@ function Contacts() {
                 <p className="p-format">
                   <strong>Bio:</strong> {user.bio}
                 </p>
+
                 <p>
                   <Link to={`/social-circle-app/contacts/${user.userName}`}>
                     View User Profile
                   </Link>
                 </p>
 
-                <button onClick={() => handleFollowClick(user)}>Follow</button>
+                <button onClick={() => handleFollowClick(user)}>
+                  Follow / Unfollow
+                </button>
               </li>
             ))}
           </ul>
