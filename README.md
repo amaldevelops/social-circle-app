@@ -13,10 +13,9 @@ This project is designed to strengthen technical proficiency in building a secur
 
 ## 🚀 Live Demo
 
-- **Front End (GitHub Pages):** [https://www.amalk.au/](https://www.amalk.au)
-- **Database (Neon):** [https://neon.tech/](https://neon.tech/)
-- **Backend (Render):** []()
-  > Note: Free hosting tiers may cause delays of up to 50 seconds on first load.
+- **Front End (GitHub Pages):** [https://www.amalk.au/social-circle-app](https://www.amalk.au/social-circle-app)
+- **Backend API (Render.com):** [https://social-circle-app.onrender.com/social-circle-api/v1/status](https://social-circle-app.onrender.com/social-circle-api/v1/status)
+  > Note: As the apps are hosted on free hosting tiers, providers may cause delays of up to two minutes on first load.
 
 ---
 
