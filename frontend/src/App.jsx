@@ -29,20 +29,40 @@ function App() {
     <>
       <div>
         <JWTStatus />
+
         <h1>Social Circle - Social networking web app </h1>
 
-        <button className="button-container" onClick={() => Navigate("login")}>
-          Login
-        </button>
-        <button className="button-container" onClick={() => handleSubmit()}>
-          Demo Account login
-        </button>
-        <button
-          className="button-container"
-          onClick={() => Navigate("register")}
-        >
-          Register
-        </button>
+
+
+        <div>
+          <button
+            className="button-container"
+            onClick={() => Navigate("login")}
+          >
+            Login
+          </button>
+          <button className="button-container" onClick={() => handleSubmit()}>
+            Demo Account login
+          </button>
+          <button
+            className="button-container"
+            onClick={() => Navigate("register")}
+          >
+            Register
+          </button>
+        </div>
+
+                <div>
+    <h2>📘 Project Introduction</h2>
+<p>This project is designed to strengthen technical proficiency in building a secure web based social networking app using standard web technologies.</p>
+
+<ul>
+  <li className="bulletPointCustom1">Front End : React/Javascript/HTML/CSS Web interface to interact with your closest friends.</li>
+  <li className="bulletPointCustom1">Backend : Node.js/Express for application Logic and PostgreSQL database for storing data</li>
+
+</ul>
+
+        </div>
 
         <Outlet />
       </div>

@@ -127,11 +127,11 @@ button:focus-visible {
   box-sizing: border-box;
 
   /* --- Responsive Menu Bar Layout --- */
-  
 }
 
 @media (max-width: 800px) {
-  .menuBar { /* Target .menuBar inside the media query */
+  .menuBar {
+    /* Target .menuBar inside the media query */
     flex-wrap: wrap;
     gap: 10px;
     padding: 0.5rem 0.5rem;
@@ -141,12 +141,13 @@ button:focus-visible {
 
 /* For screens up to 480px wide */
 @media (max-width: 480px) {
-  .menuBar { /* Target .menuBar inside the media query */
+  .menuBar {
+    /* Target .menuBar inside the media query */
     flex-direction: column;
     gap: 5px;
     padding: 0.5rem;
     height: auto;
- position:static;
+    position: static;
   }
 }
 
@@ -165,10 +166,10 @@ li {
 li::before {
   position: absolute;
   left: 0;
-  width: 1.8em; /* Width for the bullet icon and its intended space */
+  width: 1em; /* Width for the bullet icon and its intended space */
   text-align: center; /* Center the bullet visually */
-  margin-left: -2.3em; /* Pulls the bullet into the li's padding-left */
-  font-size: 1.8em;
+  margin-left: -0.15em; /* Pulls the bullet into the li's padding-left */
+  font-size: 1em;
   flex-shrink: 0; /* Prevent the bullet from shrinking */
   /* Remove margin-right from here, it's accounted for in padding-left of li */
 }
@@ -180,6 +181,11 @@ li::before {
 
 .pendingEmptyCheckbox::before {
   content: "☐";
+}
+
+.bulletPointCustom1::before {
+  content: "⚙️";
+  color: green;
 }
 
 /* --- Main Layout Container --- */
