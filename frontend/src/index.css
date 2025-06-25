@@ -188,6 +188,11 @@ li::before {
   color: green;
 }
 
+.bulletPointCustom2::before {
+  content: "🚀";
+  color: green;
+}
+
 /* --- Main Layout Container --- */
 .layoutContainer {
   position: relative;
